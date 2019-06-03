@@ -1,0 +1,110 @@
+@import "~taro-ui/dist/style/index.scss";
+
+// 设置全局样式
+page {
+  line-height: 1.4286;
+  color: $color-text-base;
+  font-size: $font-size-base;
+  background-color: $color-bg-base;
+}
+
+.line-height-1 {
+  line-height: 1;
+}
+
+.flex {
+  display: flex;
+  &-wrap {
+    flex-wrap: wrap;
+  }
+  &-fill {
+    flex: 1;
+  }
+  &-v-center {
+    align-items: center;
+  }
+  &-h-between {
+    justify-content: space-between;
+  }
+}
+
+.text {
+  &-center {
+    text-align: center;
+  }
+  &-left {
+    text-align: left;
+  }
+  &-right {
+    text-align: right;
+  }
+}
+
+.font {
+  &-xs {
+    font-size: $font-size-xs;
+  }
+  &-sm {
+    font-size: $font-size-sm;
+  }
+  &-lg {
+    font-size: $font-size-lg;
+  }
+  &-base {
+    font-size: $font-size-base;
+  }
+  &-bold {
+    font-weight: bold;
+  }
+}
+
+.color {
+  &-error {
+    color: $color-error;
+  }
+  &-black-0 {
+    color: $color-black-0;
+  }
+  &-black-1 {
+    color: $color-black-1;
+  }
+  &-black-2 {
+    color: $color-black-2;
+  }
+  &-black-3 {
+    color: $color-black-3;
+  }
+  &-grey-1 {
+    color: $color-grey-1;
+  }
+  &-grey-2 {
+    color: $color-grey-2;
+  }
+  &-grey-3 {
+    color: $color-grey-3;
+  }
+  &-grey-4 {
+    color: $color-grey-4;
+  }
+  &-grey-5 {
+    color: $color-grey-5;
+  }
+  &-grey-6 {
+    color: $color-grey-6;
+  }
+}
+
+.bg {
+  &-white {
+    background-color: white;
+  }
+}
+
+.border {
+  &-bottom-1px {
+    @include border-thin($color-grey-6, solid, bottom, 1px);
+  }
+  &-bottom-base {
+    @include border-thin($color-grey-6, solid, bottom, 16px);
+  }
+}
