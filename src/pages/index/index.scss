@@ -14,18 +14,40 @@
         border-radius: 50%;
       }
     }
-    .name {
-      margin-bottom: $spacing-v-md;
+    .autograph {
+      margin: 0;
+      padding: 0;
+      .iconfont {
+        padding: 0;
+      }
+      .at-input {
+        &__input {
+          flex: none;
+          padding: 0;
+          width: 16em;
+          font-size: $font-size-xs;
+        }
+        &__children::after {
+          display: none;
+        }
+      }
+    }
+  }
+  .order-info {
+    .show-ranking {
+      height: 50px;
+      display: block;
+      line-height: 48px;
     }
   }
   .order-manage {
     .title {
       padding: $spacing-v-sm $spacing-h-lg;
     }
-    .magage-menus {
+    .menus {
       padding: $spacing-v-md 0;
-      .content-inner__text {
-        font-size: $font-size-sm;
+      .icon {
+        font-size: 75px;
       }
     }
   }
@@ -36,10 +58,7 @@
       flex: 0 0 33.3333333%;
       padding: $spacing-v-xl 0;
       .icon {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto;
-        display: block;
+        font-size: 75px;
       }
       .label {
         padding: $spacing-v-md 0 $spacing-v-xs;
@@ -54,11 +73,14 @@
       padding-bottom: $spacing-v-lg;
     }
   }
-  .logout {
-    width: 75%;
-    height: 80px;
-    line-height: 78px;
-    margin-bottom: 50px;
-    @include border-thin($color-error);
+  .footer {
+    overflow: hidden;
+    .logout {
+      width: 75%;
+      height: 80px;
+      line-height: 78px;
+      margin-bottom: 50px;
+      // @include border-thin($color-error);
+    }
   }
 }

@@ -8,7 +8,11 @@ page {
   background-color: $color-bg-base;
 }
 
-.line-height-1 {
+.iconfont {
+  font-size: $font-size-base;
+}
+
+.clear-lh {
   line-height: 1;
 }
 
@@ -60,37 +64,55 @@ page {
 
 .color {
   &-error {
-    color: $color-error;
+    color: $color-error !important;
+  }
+  &-info {
+    color: $color-info !important;
+  }
+  &-warning {
+    color: $color-warning !important;
+  }
+  &-success {
+    color: $color-success !important;
+  }
+  &-brand-dark {
+    color: $color-brand-dark !important;
+  }
+  &-brand-light {
+    color: $color-brand-light !important;
+  }
+  &-placeholder {
+    color: $color-text-placeholder !important;
   }
   &-black-0 {
-    color: $color-black-0;
+    color: $color-black-0 !important;
   }
   &-black-1 {
-    color: $color-black-1;
+    color: $color-black-1 !important;
   }
   &-black-2 {
-    color: $color-black-2;
+    color: $color-black-2 !important;
   }
   &-black-3 {
-    color: $color-black-3;
+    color: $color-black-3 !important;
   }
   &-grey-1 {
-    color: $color-grey-1;
+    color: $color-grey-1 !important;
   }
   &-grey-2 {
-    color: $color-grey-2;
+    color: $color-grey-2 !important;
   }
   &-grey-3 {
-    color: $color-grey-3;
+    color: $color-grey-3 !important;
   }
   &-grey-4 {
-    color: $color-grey-4;
+    color: $color-grey-4 !important;
   }
   &-grey-5 {
-    color: $color-grey-5;
+    color: $color-grey-5 !important;
   }
   &-grey-6 {
-    color: $color-grey-6;
+    color: $color-grey-6 !important;
   }
 }
 

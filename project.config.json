@@ -2,13 +2,14 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "weapp",
 	"description": "",
-	"appid": "touristappid",
+	"appid": "wxc3ccdbf40c16c2fd",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"compileType": "miniprogram",
 	"condition": {}
