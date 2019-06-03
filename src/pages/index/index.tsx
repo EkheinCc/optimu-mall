@@ -1,9 +1,10 @@
+import './index.scss'
+import avatar from '@/assets/avatar.png'
+import { uploadFile } from '@/api/upload'
+import * as echarts from '@/ec-canvas/echarts'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { AtButton, AtBadge, AtMessage, AtInput } from 'taro-ui'
-import avatar from '@/assets/avatar.png'
-import { uploadFile } from '@/api/upload'
-import './index.scss'
 
 class Index extends Component {
 
@@ -15,21 +16,35 @@ class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '首页'
-  }
-  
-  constructor(props:any) {
-    super(props)
-    this.state = {
-      address: '',
-      form: {
-        autograph: ''
-      }
+    navigationBarTitleText: '首页',
+    usingComponents: {
+      'ec-canvas': '../../ec-canvas/ec-canvas'
     }
   }
 
+  $refs: any = {
+    pieChart: null
+  }
+
+  state: any = {
+    ec: {
+      lazyLoad: true
+    },
+    address: '',
+    form: {
+      autograph: ''
+    }
+  }
+
+  constructor(props: any) {
+    super(props)
+  }
+
   componentDidMount() {
+    this.initChart()
     this.getLocation()
+    // this.setChartOptions()
+    // console.log(this.$refs.pieChart)
   }
 
   componentWillUnmount () { }
@@ -37,6 +52,37 @@ class Index extends Component {
   componentDidShow () { }
 
   componentDidHide() { }
+  /**
+   * @Author: Tainan
+   * @Description: 初始化饼图
+   * @Date: 2019-06-03 15:57:25
+   */
+  initChart() {
+    this.$refs.pieChart.init((canvas, width, height) => {
+      const chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      })
+      return chart;
+    })
+  }
+  /**
+   * @Author: Tainan
+   * @Description: 设置图标数据
+   * @Date: 2019-06-03 15:57:25
+   */
+  setChartOptions() {
+    const { chart } = this.$refs.pieChart
+    chart.setOption({
+      series: {
+        type: 'pie',
+        data: [
+          { value: 335, name: '直接访问' },
+          { value: 310, name: '邮件营销' }
+        ]
+      }
+    })
+  }
   /**
    * @Author: Tainan
    * @Description: 获取用户地理位置 & 反向解析地址
@@ -184,7 +230,9 @@ class Index extends Component {
           <Text>您的订单排名: </Text>
           <Text className="color-error">第498名</Text>
         </View>
-        <View>Echarts</View>
+        <View className="pie-chart">
+          <ec-canvas ref={(node) => this.$refs.pieChart = node} ec={this.state.ec}/>
+        </View>
         <View className="font-sm flex flex-h-between">
           <Text>今日收益（元）</Text>
           <Text className="color-error">5.40</Text>
