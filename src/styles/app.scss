@@ -27,6 +27,9 @@ page {
   &-v-center {
     align-items: center;
   }
+  &-h-center {
+    justify-content: center;
+  }
   &-h-between {
     justify-content: space-between;
   }
@@ -54,6 +57,12 @@ page {
   &-lg {
     font-size: $font-size-lg;
   }
+  &-xl {
+    font-size: $font-size-xl;
+  }
+  &-xxl {
+    font-size: $font-size-xxl;
+  }
   &-base {
     font-size: $font-size-base;
   }
@@ -63,6 +72,9 @@ page {
 }
 
 .color {
+  &-white {
+    color: white;
+  }
   &-error {
     color: $color-error !important;
   }
@@ -120,6 +132,9 @@ page {
   &-white {
     background-color: white;
   }
+  &-error {
+    background-color: $color-error !important;
+  }
 }
 
 .border {
@@ -128,5 +143,17 @@ page {
   }
   &-bottom-base {
     @include border-thin($color-grey-6, solid, bottom, 16px);
+  }
+}
+
+.radius {
+  &-sm {
+    border-radius: $border-radius-sm;
+  }
+  &-md {
+    border-radius: $border-radius-md;
+  }
+  &-lg {
+    border-radius: $border-radius-lg;
   }
 }

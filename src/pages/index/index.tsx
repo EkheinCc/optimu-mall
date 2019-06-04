@@ -7,7 +7,6 @@ import { View, Image, Text } from '@tarojs/components'
 import { AtButton, AtBadge, AtMessage, AtInput } from 'taro-ui'
 
 class Index extends Component {
-
   /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -27,9 +26,6 @@ class Index extends Component {
   }
 
   state: any = {
-    ec: {
-      lazyLoad: true
-    },
     address: '',
     form: {
       autograph: ''
@@ -41,10 +37,11 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    this.initChart()
     this.getLocation()
-    // this.setChartOptions()
-    // console.log(this.$refs.pieChart)
+    this.refreshChart()
+    setTimeout(() => {
+      this.refreshChart(10, 100)
+    }, 3000);
   }
 
   componentWillUnmount () { }
@@ -54,34 +51,63 @@ class Index extends Component {
   componentDidHide() { }
   /**
    * @Author: Tainan
+   * @Description: 查看排名点击处理
+   * @Date: 2019-06-04 12:54:38
+   */
+  handleRankingClick() {
+    Taro.navigateTo({url: '/pages/popular/index'})
+  }
+  /**
+   * @Author: Tainan
    * @Description: 初始化饼图
    * @Date: 2019-06-03 15:57:25
    */
-  initChart() {
+  refreshChart(order: any = 0, total: number = 0) {
     this.$refs.pieChart.init((canvas, width, height) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height
-      })
-      return chart;
+      const chart: any = echarts.init(canvas, null, { width, height })
+      canvas.setChart(chart)
+      this.setOptions(chart, order, total)
+      return chart
     })
   }
   /**
    * @Author: Tainan
-   * @Description: 设置图标数据
-   * @Date: 2019-06-03 15:57:25
+   * @Description: 更新图表数据
+   * @Date: 2019-06-04 11:13:39
    */
-  setChartOptions() {
-    const { chart } = this.$refs.pieChart
-    chart.setOption({
+  setOptions(chart: any, order: any = 0, total: number = 0) {
+    const options: any = {
       series: {
         type: 'pie',
+        startAngle: 0,
+        radius: [0, '63%'],
+        hoverAnimation: false,
+        label: {
+          fontSize: 10,
+          formatter: '{b}{c}'
+        },
+        labelLine: {
+          length2: 8,
+        },
         data: [
-          { value: 335, name: '直接访问' },
-          { value: 310, name: '邮件营销' }
+          {
+            value: total,
+            name: '总订单数：',
+            itemStyle: {
+              color: '#78A4FA'
+            }
+          },
+          {
+            value: order,
+            name: '您的订单数：',
+            itemStyle: {
+              color: '#FFC82C'
+            }
+          }
         ]
       }
-    })
+    }
+    chart.setOption && chart.setOption(options)
   }
   /**
    * @Author: Tainan
@@ -139,7 +165,8 @@ class Index extends Component {
    */
   handleLocationClick() {
     Taro.chooseLocation().then((resp: any) => {
-      console.log(resp)
+      const { name } = resp
+      this.setState({ address: name })
     })
   }
   /**
@@ -152,13 +179,12 @@ class Index extends Component {
       count: 1
     }).then((resp: any) => {
       const [ filePath ] = resp.tempFilePaths
-      return uploadFile({
-        filePath,
-        name: 'test'
-      })
+      return uploadFile({ filePath, name: 'test' })
     }).then((resp: any) => {
       console.log(resp)
-    }).catch(() => {
+    }).catch((error: any) => {
+      const { errMsg } = error
+      if (errMsg && errMsg.split(' ')[1] === 'cancel') return
       Taro.atMessage({
         type: 'error',
         message: '头像上传失败~'
@@ -220,7 +246,7 @@ class Index extends Component {
       <View className="bg-white border-bottom-base order-info">
         <View className="flex flex-v-center">
           <Text className="flex-fill font-bold color-black-0">今日新生优选订单数</Text>
-          <AtButton className="show-ranking" type="secondary" size="small">查看排名</AtButton>
+          <AtButton onClick={this.handleRankingClick} className="show-ranking" type="secondary" size="small">查看排名</AtButton>
         </View>
         <View className="font-sm">
           <Text>您的订单占比: </Text>
@@ -231,7 +257,7 @@ class Index extends Component {
           <Text className="color-error">第498名</Text>
         </View>
         <View className="pie-chart">
-          <ec-canvas ref={(node) => this.$refs.pieChart = node} ec={this.state.ec}/>
+          <ec-canvas ref={node => this.$refs.pieChart = node} ec={{lazyLoad: true}}/>
         </View>
         <View className="font-sm flex flex-h-between">
           <Text>今日收益（元）</Text>

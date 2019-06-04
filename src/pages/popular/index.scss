@@ -1,0 +1,24 @@
+.wrapper {
+  overflow: hidden;
+  .title {
+    padding: $spacing-v-lg $spacing-h-lg;
+  }
+  .list-item {
+    padding: $spacing-v-lg $spacing-h-lg;
+    .store {
+      margin-left: $spacing-h-lg;
+      .store-name {
+        margin-bottom: $spacing-v-sm;
+      }
+      .store-desc:nth-child(3) {
+        margin-right: $spacing-h-lg;
+      }
+    }
+  }
+  .list-item + .list-item {
+    @include border-thin($color-grey-6, solid, top, 1px);
+  }
+  .scroll-view {
+    height: 400px; 
+  }
+}

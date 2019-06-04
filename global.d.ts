@@ -17,3 +17,9 @@ declare const process: {
     [key: string]: any;
   }
 }
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    'ec-canvas': any
+  }
+}

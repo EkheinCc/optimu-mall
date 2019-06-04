@@ -1,0 +1,19 @@
+.custom-tabs {
+  padding: $spacing-v-md $spacing-h-lg;
+  .tabs-wrapper {
+    height: 75px;
+    overflow: hidden;
+    line-height: 73px;
+    @include border-thin($color-error);
+  }
+  .item {
+    transition: all .3s;
+    &.active {
+      color: $color-white;
+      background-color: $color-error;
+    }
+  }
+  .item + .item {
+    @include border-thin($color-error, solid, left, 1px);
+  }
+}
