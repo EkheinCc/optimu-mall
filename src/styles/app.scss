@@ -139,10 +139,10 @@ page {
 
 .border {
   &-bottom-1px {
-    @include border-thin($color-grey-6, solid, bottom, 1px);
+    @include border-thin($color-grey-5, solid, bottom, 1px);
   }
   &-bottom-base {
-    @include border-thin($color-grey-6, solid, bottom, 16px);
+    @include border-thin($color-grey-5, solid, bottom, 16px);
   }
 }
 

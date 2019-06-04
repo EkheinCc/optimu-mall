@@ -10,8 +10,16 @@ class Popular extends Component {
   public config: Config = {
     navigationBarTitleText: '人气店铺'
   }
+
+  public $refs: any = {
+    loadMore: null
+  }
   
   public state: any = {
+    list: [],
+    params: {
+      time: ''
+    },
     active: {
       tab: 0,
       tabBar: 0
@@ -63,6 +71,11 @@ class Popular extends Component {
    */
   handleSearch() {
     console.log('搜索')
+    this.setState({
+      params: { time: '1' }
+    }, () => {
+      this.$refs.loadMore.refresh()
+    })
   }
   /**
    * @Author: Tainan
@@ -79,12 +92,24 @@ class Popular extends Component {
    */
   handleFetchData(params) {
     console.log(params)
-    return Promise.resolve({
-      total: 50,
-      rows: Array.from({ length: 10 }, () => {
-        return {id: Math.random()}
-      })
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          total: 50,
+          rows: Array.from({ length: 20 }, () => {
+            return { id: Math.random() }
+          })
+        })
+      }, 2000)
     })
+  }
+  /**
+   * @Author: Tainan
+   * @Description: 处理下拉刷新
+   * @Date: 2019-06-04 17:20:30
+   */
+  handlePullUp(resp: any) {
+    console.log(resp)
   }
   /**
    * @Author: Tainan
@@ -132,8 +157,12 @@ class Popular extends Component {
           {this.renderItem()}
         </View>
         <View className="bg-white font-lg color-error title border-bottom-1px">人气店铺 Top10</View>
-        <View className="scroll-view">
-          <LoadMore fetch={this.handleFetchData.bind(this)}>
+        <View className="bg-white scroll-view">
+          <LoadMore
+            params={this.state.params}
+            onPullUp={this.handlePullUp.bind(this)}
+            fetch={this.handleFetchData.bind(this)}
+            ref={(node: any) => this.$refs.loadMore = node}>
             {this.renderItem()}
             {this.renderItem()}
             {this.renderItem()}

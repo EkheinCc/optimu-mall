@@ -16,9 +16,12 @@
     }
   }
   .list-item + .list-item {
-    @include border-thin($color-grey-6, solid, top, 1px);
+    @include border-thin($color-grey-5, solid, top, 1px);
   }
   .scroll-view {
-    height: 400px; 
+    width: 100%;
+    bottom: 130px;
+    position: absolute;
+    top: calc(35PX + 476px);
   }
 }

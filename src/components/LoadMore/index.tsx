@@ -1,6 +1,6 @@
 import './index.scss'
-import { AtFab, AtActivityIndicator } from 'taro-ui'
 import PropTypes from 'prop-types'
+import { AtFab, AtLoadMore } from 'taro-ui'
 import Taro, { Component } from '@tarojs/taro'
 import { ScrollView, View, Text } from '@tarojs/components'
 
@@ -20,9 +20,8 @@ class Scroll extends Component {
     lowerThreshold: PropTypes.number
   }
   public state: any = {
-    _rows  : [],
-    _total : 0,
-    _parmas: {
+    status: 'more',
+    parmas: {
       page: 1,
       size: 20
     }
@@ -43,9 +42,9 @@ class Scroll extends Component {
   init() {
     const props: any = this.props
     this.setState((prev: any) => {
-      const { size, ...rest } = prev._parmas
+      const { size, ...rest } = prev.parmas
       return {
-        _parmas: {
+        parmas: {
           ...rest,
           size: props.size || size
         }
@@ -58,10 +57,17 @@ class Scroll extends Component {
    * @Date: 2019-06-04 18:03:30
    */
   fetch() {
-    const props: any = this.props
-    const params = Object.assign({}, props.params, this.state._parmas)
-    props.fetch(params).then(resp => {
-      console.log(resp)
+    this.setState({
+      status: 'loading'
+    }, () => {
+      const props: any  = this.props
+      const params: any = Object.assign({}, props.params, this.state.parmas)
+      props.fetch(params).then((resp: any) => {
+        const { total } = resp
+        const { size, page } = params
+        this.setState({ status: page * size >= total ? 'noMore' : 'more' }) // 没有更多了
+        props.onPullUp(resp)
+      })
     })
   }
   /**
@@ -79,9 +85,9 @@ class Scroll extends Component {
    */
   handleScrollToLower() {
     this.setState((prev: any) => {
-      const { page, ...rest } = prev._parmas
+      const { page, ...rest } = prev.parmas
       return {
-        _parmas: {
+        parmas: {
           ...rest,
           page: page + 1
         }
@@ -93,9 +99,9 @@ class Scroll extends Component {
     const props: any = this.props
     return (
       <View className="load-more-wrapper">
-        <View className="back">
+        {/* <View className="back">
           <AtFab>顶部</AtFab>
-        </View>
+        </View> */}
         <ScrollView
           scrollY={true}
           scrollX={false}
@@ -107,7 +113,12 @@ class Scroll extends Component {
           enableBackToTop={props.enableBackToTop}
           onScrollToLower={this.handleScrollToLower.bind(this)}>
           {props.children}
-          <AtActivityIndicator className="flex-h-center" content='加载中...'/>
+          <AtLoadMore
+            moreText="下拉查看更多~"
+            noMoreText="已经到底了~"
+            loadingText="努力加载中..."
+            moreBtnStyle={{border: 'none', fontSize: Taro.pxTransform(24)}}
+            status={this.state.status}/>
         </ScrollView>
       </View>
     )
