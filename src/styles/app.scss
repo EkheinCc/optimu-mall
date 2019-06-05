@@ -8,8 +8,17 @@ page {
   background-color: $color-bg-base;
 }
 
+// iconfont 字体大小重定义
 .iconfont {
   font-size: $font-size-base;
+}
+
+// 搜索框样式重置
+.at-search-bar {
+  input {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .clear-lh {

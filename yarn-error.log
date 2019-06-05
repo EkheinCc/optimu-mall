@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe D:\Yarn\bin\yarn.js add @src/styles/app.scss --silent --no-progress
+  C:\Program Files\nodejs\node.exe D:\Yarn\bin\yarn.js add @types/taro-ui
 
 PATH: 
-  C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;D:\Backup\桌面\Taro\weapp\node_modules\.bin;C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;D:\Backup\桌面\Taro\weapp\node_modules\.bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Git\cmd;C:\Python27;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\nodejs\;D:\Microsoft VS Code\bin;D:\Yarn\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Git\cmd;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Git\cmd;D:\Notepad++;;D:\Microsoft VS Code\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\AppData\Local\Yarn\bin;C:\Python27\Scripts;D:\驱动精灵\DriverGenius;D:\驱动精灵\DriverGenius\ksoft
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Git\cmd;C:\Python27;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\nodejs\;D:\Microsoft VS Code\bin;D:\Yarn\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Git\cmd;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Git\cmd;D:\Notepad++;;D:\Microsoft VS Code\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\AppData\Local\Yarn\bin;C:\Python27\Scripts
 
 Yarn version: 
   1.9.4
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.npmjs.org/@src%2fstyles/app.scss: Not found
+  Error: https://registry.yarnpkg.com/@types%2ftaro-ui: Not found
       at Request.params.callback [as _callback] (D:\Yarn\lib\cli.js:64202:18)
       at Request.self.callback (D:\Yarn\lib\cli.js:137468:22)
       at emitTwo (events.js:126:13)
@@ -57,6 +57,8 @@ npm manifest:
       "@tarojs/taro-swan": "1.3.0-beta.6",
       "@tarojs/taro-tt": "1.3.0-beta.6",
       "@tarojs/taro-weapp": "1.3.0-beta.6",
+      "classnames": "^2.2.6",
+      "flyio": "^0.6.14",
       "nerv-devtools": "^1.4.0-beta.5",
       "nervjs": "^1.4.0-beta.5",
       "taro-ui": "^2.1.0"
@@ -3143,6 +3145,12 @@ Lockfile:
       inherits "^2.0.3"
       readable-stream "^2.3.6"
   
+  flyio@^0.6.14:
+    version "0.6.14"
+    resolved "https://registry.yarnpkg.com/flyio/-/flyio-0.6.14.tgz#c5d83eb7a9b4fc1c915a463d2ea6dfce755c2d6f"
+    dependencies:
+      request "^2.85.0"
+  
   follow-redirects@^1.0.0:
     version "1.7.0"
     resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
@@ -6080,7 +6088,7 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/replace-ext/-/replace-ext-1.0.0.tgz#de63128373fcbf7c3ccfa4de5a480c45a67958eb"
   
-  request@^2.83.0, request@^2.87.0, request@^2.88.0:
+  request@^2.83.0, request@^2.85.0, request@^2.87.0, request@^2.88.0:
     version "2.88.0"
     resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
     dependencies:
