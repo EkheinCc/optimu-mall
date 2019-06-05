@@ -1,5 +1,5 @@
+@import "./animation.scss";
 @import "~taro-ui/dist/style/index.scss";
-
 // 设置全局样式
 page {
   line-height: 1.4286;
@@ -87,6 +87,15 @@ page {
   &-success {
     color: $color-success !important;
   }
+  &-golden {
+    color: $color-golden !important;
+  }
+  &-silvery {
+    color: $color-silvery !important;
+  }
+  &-coppery {
+    color: $color-coppery !important;
+  }
   &-brand-dark {
     color: $color-brand-dark !important;
   }
@@ -138,6 +147,9 @@ page {
 }
 
 .border {
+  &-top-1px {
+    @include border-thin($color-grey-5, solid, top, 1px);
+  }
   &-bottom-1px {
     @include border-thin($color-grey-5, solid, bottom, 1px);
   }

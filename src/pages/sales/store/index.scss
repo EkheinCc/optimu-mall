@@ -1,10 +1,14 @@
 .wrapper {
-  overflow: hidden;
+  height: 100vh;
+  position: relative;
   .title {
     padding: $spacing-v-lg $spacing-h-lg;
   }
   .list-item {
     padding: $spacing-v-lg $spacing-h-lg;
+    .index {
+      width: 2em;
+    }
     .store {
       margin-left: $spacing-h-lg;
       .store-name {
@@ -20,8 +24,11 @@
   }
   .scroll-view {
     width: 100%;
-    bottom: 130px;
+    bottom: 100px;
     position: absolute;
-    top: calc(35PX + 476px);
+    top: calc(30PX + 483px);
+    &.is-apple-x {
+      bottom: calc(100px + 34PX);
+    }
   }
 }

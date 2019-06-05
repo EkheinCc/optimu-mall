@@ -4,6 +4,7 @@
     height: 75px;
     overflow: hidden;
     line-height: 73px;
+    background: white;
     @include border-thin($color-error);
   }
   .item {

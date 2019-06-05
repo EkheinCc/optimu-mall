@@ -1,0 +1,49 @@
+.wrapper {
+  // 隐藏tab头部
+  .at-tabs__header {
+    display: none;
+  }
+  // 搜索框样式重置
+  .at-search-bar {
+    input {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+  
+  .fixed-tabs {
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    line-height: 99px;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+    .tabs-item {
+      position: relative;
+      &.active {
+        color: $color-brand-light;
+        &::after {
+          width: 55%;
+          background-color: $color-error;
+        }
+      }
+      &::after {
+        left: 50%;
+        width: 0%;
+        height: 5px;
+        content: '';
+        position: absolute;
+        bottom: $spacing-v-sm;
+        transition: all .2s ease-in-out;
+        border-radius: $border-radius-sm;
+        transform: translate(-50%, -50%);
+      }
+      .title {
+        margin-left: $spacing-h-sm;
+      }
+    }
+  }
+}
