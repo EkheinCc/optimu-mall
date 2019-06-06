@@ -32,6 +32,7 @@
     "flyio": "^0.6.14",
     "nerv-devtools": "^1.4.0-beta.5",
     "nervjs": "^1.4.0-beta.5",
+    "qs": "^6.7.0",
     "taro-ui": "^2.1.0"
   },
   "devDependencies": {

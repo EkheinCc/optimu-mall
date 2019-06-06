@@ -1,6 +1,6 @@
 import './index.scss'
-import Hot from './Hot'
-import Store from './Store'
+import Hot from './components/Hot'
+import Store from './components/Store'
 import { isAppleX } from '@/utils'
 import classNames from 'classnames'
 import { AtTabs, AtTabsPane } from 'taro-ui'

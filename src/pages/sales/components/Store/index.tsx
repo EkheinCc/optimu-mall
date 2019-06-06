@@ -135,7 +135,8 @@ class Store extends Component {
           value={form.value}
           className="search-bar"
           onActionClick={this.handleSearch.bind(this)}
-          onChange={this.handleSearchChange.bind(this)}/>
+          onChange={this.handleSearchChange.bind(this)}
+        />
         <Tabs tabs={tabs} active={active} onChange={this.handleTabsChange.bind(this)} />
         {/* 我的排名 */}
         <View className="border-bottom-base">

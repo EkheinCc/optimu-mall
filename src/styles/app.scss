@@ -24,6 +24,13 @@ page {
 .clear-lh {
   line-height: 1;
 }
+.clear-fix {
+  &::after {
+    content: '';
+    clear: both;
+    display: table;
+  }
+}
 
 .flex {
   display: flex;
@@ -161,6 +168,9 @@ page {
   }
   &-bottom-1px {
     @include border-thin($color-grey-5, solid, bottom, 1px);
+  }
+  &-top-base {
+    @include border-thin($color-grey-5, solid, top, 16px);
   }
   &-bottom-base {
     @include border-thin($color-grey-5, solid, bottom, 16px);

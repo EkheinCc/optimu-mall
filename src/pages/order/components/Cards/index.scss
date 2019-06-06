@@ -1,0 +1,34 @@
+.order-card {
+  .desc,
+  .header,
+  .footer {
+    padding: $spacing-v-md $spacing-h-lg;
+  }
+  .header {
+    .check-box {
+      margin-right: $spacing-h-sm;
+    }
+    .order-code {
+      margin-left: $spacing-h-sm;
+    }
+  }
+  .images {
+    padding: $spacing-v-xl $spacing-h-lg;
+    view, image {
+      width: 86.5px;
+    }
+    image {
+      height: 86.5px;
+    }
+    view  + view,
+    image + view,
+    image + image {
+      margin-left: $spacing-h-md;
+    }
+  }
+  .footer {
+    .username {
+      margin-bottom: $spacing-v-sm;
+    }
+  }
+}

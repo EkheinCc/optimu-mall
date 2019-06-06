@@ -1,4 +1,5 @@
 import './index.scss'
+import { formatUrl } from '@/utils'
 import avatar from '@/assets/avatar.png'
 import { uploadFile } from '@/api/upload'
 import * as echarts from '@/ec-canvas/echarts'
@@ -55,7 +56,7 @@ class Index extends Component {
    * @Date: 2019-06-04 12:54:38
    */
   handleRankingClick() {
-    Taro.navigateTo({url: '/pages/popular/index'})
+    Taro.navigateTo({url: '/pages/sales/index'})
   }
   /**
    * @Author: Tainan
@@ -171,6 +172,15 @@ class Index extends Component {
   }
   /**
    * @Author: Tainan
+   * @Description: 订单管理Click
+   * @Date: 2019-06-06 17:34:40
+   */
+  handleOrderManageClick(type: any) {
+    const url = formatUrl('/pages/order/index', { type })
+    Taro.navigateTo({url})
+  }
+  /**
+   * @Author: Tainan
    * @Description: 修改头像
    * @Date: 2019-06-03 16:24:07
    */
@@ -277,10 +287,10 @@ class Index extends Component {
    */
   renderOrderManage() {
     const menus: object[] = [
-      { iconClass: ['iconfont', 'color-grey-1', 'icon-order-today' ], label: '今日订单'   }, 
-      { iconClass: ['iconfont', 'color-grey-1', 'icon-order-month' ], label: '本月订单'   },
-      { iconClass: ['iconfont', 'color-grey-1', 'icon-wait-order'  ], label: '待提货订单' },
-      { iconClass: ['iconfont', 'color-grey-1', 'icon-remind-order'], label: '提现取货'   }
+      { type: 1, iconClass: ['iconfont', 'color-grey-1', 'icon-order-today' ], label: '今日订单'   }, 
+      { type: 2, iconClass: ['iconfont', 'color-grey-1', 'icon-order-month' ], label: '本月订单'   },
+      { type: 3, iconClass: ['iconfont', 'color-grey-1', 'icon-wait-order'  ], label: '待提货订单' },
+      { type: 4, iconClass: ['iconfont', 'color-grey-1', 'icon-remind-order'], label: '提现取货'   }
     ]
     return (
       <View className="bg-white order-manage border-bottom-base">
@@ -291,7 +301,7 @@ class Index extends Component {
         </View>
         <View className="flex  menus">
           {menus.map((item: any, index: number) => 
-            <View key={index} className="flex-fill text-center">
+            <View onClick={this.handleOrderManageClick.bind(null, item.type)} key={index} className="flex-fill text-center">
               <View className={['icon', ...item.iconClass].join()}/>
               <View>{item.label}</View>
             </View>
