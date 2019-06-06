@@ -32,6 +32,16 @@ page {
   }
 }
 
+
+.flot {
+  &-right {
+    float: right;
+  }
+  &-left {
+    float: left;
+  }
+}
+
 .flex {
   display: flex;
   &-wrap {
@@ -42,6 +52,9 @@ page {
   }
   &-v-center {
     align-items: center;
+  }
+  &-v-end {
+    align-items: flex-end;
   }
   &-h-center {
     justify-content: center;
@@ -84,6 +97,9 @@ page {
   }
   &-bold {
     font-weight: bold;
+  }
+  &-delete {
+    text-decoration: line-through;
   }
 }
 
@@ -159,6 +175,12 @@ page {
   }
   &-error {
     background-color: $color-error !important;
+  }
+  &-origin {
+    background-color: $color-origin !important;
+  }
+  &-origin-light {
+    background-color: $color-origin-light !important;
   }
 }
 

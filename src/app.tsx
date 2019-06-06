@@ -22,7 +22,7 @@ class App extends Component {
       'pages/index/index',
       'pages/order/index',
       'pages/sales/index',
-      '/pages/order/details/index'
+      'pages/order/details/index',
     ],
     window: {
       backgroundTextStyle: 'light',
