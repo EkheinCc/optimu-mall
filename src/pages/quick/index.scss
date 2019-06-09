@@ -1,0 +1,32 @@
+.wrapper {
+  .header {
+    padding: $spacing-v-lg $spacing-h-lg;
+    .store-name {
+      padding-bottom: $spacing-v-xl;
+    }
+    .store-name + view {
+      padding-bottom: $spacing-v-xs;
+    }
+  }
+  .title {
+    padding: $spacing-v-lg $spacing-h-lg;
+  }
+  .scroll-view {
+    bottom: 0;
+    top: 292px;
+    width: 100%; 
+    position: absolute;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+  }
+  .list {
+    padding: $spacing-v-md $spacing-h-lg;
+    .list-item {
+      padding: $spacing-v-xs 0;
+    }
+  }
+  .list + .list {
+    @include border-thin($color-grey-5, solid, top, 1px);
+  }
+}

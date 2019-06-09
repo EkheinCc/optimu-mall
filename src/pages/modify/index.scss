@@ -1,0 +1,23 @@
+.wrapper {
+  height: 100vh;
+  background: white;
+  .form {
+    padding: $spacing-v-xl $spacing-h-lg 0;
+    .send {
+      display: block;
+    }
+    .at-input {
+      margin-left: 0;
+      padding: $spacing-v-lg 0;
+      input,
+      label {
+        width: 4em;
+        color: $color-text-base;
+        font-size: $font-size-base;
+      }
+    }
+  }
+  .submit {
+    margin: 150px $spacing-h-lg 0;
+  }
+}

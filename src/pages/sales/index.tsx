@@ -9,7 +9,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 
 class Popular extends Component {
 
-  public config: Config = {
+  static config: Config = {
     navigationBarTitleText: ''
   }
 

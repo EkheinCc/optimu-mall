@@ -16,7 +16,7 @@ export function isAppleX(): boolean {
  * @Description: 校验表单 => 给定 rules & values
  * @Date: 2019-06-06 17:38:48
  */
-export function validate(rules: any, values: any): void {
+export function validate(rules: any, values: any): any {
   const result = Object.keys(values)
     .filter(key => Array.isArray(rules[key]))
     .map(key => {
@@ -40,6 +40,6 @@ export function validate(rules: any, values: any): void {
   return Promise.resolve(result.length ? result : null)
 }
 
-export function formatUrl(path: string, params: object): string {
+export function formatUrl(path: string, params?: object): string {
   return path + '?' + Qs.stringify(params)
 }

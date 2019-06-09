@@ -1,0 +1,64 @@
+.wrapper {
+  .title {
+    padding: $spacing-v-md 0;
+  }
+  .details-header {
+    padding: $spacing-v-md $spacing-h-lg;
+    .label {
+      flex: 0 0 20%;
+    }
+    .label + view {
+      flex: 0 0 80%;
+    }
+  }
+  .details-info,
+  .details-message,
+  .details-progress {
+    padding: 0 $spacing-h-lg;
+  }
+
+  .details-progress {
+    .steps {
+      padding: $spacing-v-xl 0;
+      .at-steps__item {
+        .at-steps__title {
+          color: $color-success;
+          font-size: $font-size-sm;
+        }
+        .at-steps__circular {
+          width: auto;
+          height: auto;
+          background-color: transparent;
+          .at-icon {
+            font-size: 60px;
+            color: $color-success;
+          }
+        }
+      }
+      // 他下面的兄弟元素 就是拿到还在步骤中的item
+      .at-steps__item--active ~ .at-steps__item {
+        .at-steps__title {
+          color: $color-grey-2;
+        }
+        .at-steps__circular {
+          .at-icon {
+            color: $color-grey-2;
+          }
+        } 
+      }
+    }
+  }
+  .details-info {
+    .content {
+      padding: $spacing-v-xl 0;
+      > view {
+        padding: $spacing-v-xs 0;
+      }
+    }
+  }
+  .details-message {
+    .message {
+      padding: $spacing-v-xl 0 $spacing-v-lg;
+    }
+  }
+}

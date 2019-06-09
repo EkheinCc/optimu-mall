@@ -5,9 +5,9 @@
   background: white;
   .fab-wrapper {
     z-index: 1;
+    bottom: 150px;
     position: absolute;
     right: $spacing-h-md;
-    bottom: $spacing-v-xl;
     transition: all .3s ease-in-out;
     &.fadeIn {
       opacity: 1;

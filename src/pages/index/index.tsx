@@ -15,18 +15,18 @@ class Index extends Component {
    * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
-  config: Config = {
+  public config: Config = {
     navigationBarTitleText: '首页',
     usingComponents: {
       'ec-canvas': '../../ec-canvas/ec-canvas'
     }
   }
 
-  $refs: any = {
+  public $refs: any = {
     pieChart: null
   }
 
-  state: any = {
+  public state: any = {
     address: '',
     form: {
       autograph: ''
@@ -143,12 +143,24 @@ class Index extends Component {
    * @Date: 2019-06-03 13:46:44
    */
   handleMenuClick(id) {
+    const url = ({
+      3:  formatUrl('/pages/service/index'),
+      4:  formatUrl('/pages/commission/index'),
+      6:  formatUrl('/pages/sales/index'),
+      7:  formatUrl('/pages/store/index'),
+      9:  formatUrl('/pages/quick/index'),
+      8:  formatUrl('/pages/extraction/index'),
+      10: formatUrl('/pages/member/index'),
+      12: formatUrl('/pages/modify/index'),
+      13: formatUrl('/pages/increased/index')
+    })[id]
     switch (id) {
+      case 1:
+        return Taro.navigateToMiniProgram({ appId: 'wxc3ccdbf40c16c2fe' })
       case 11:
         return this.handleScanCode()
       default:
-        console.log(id)
-        break;
+        return url && Taro.navigateTo({url})
     }
   }
   /**

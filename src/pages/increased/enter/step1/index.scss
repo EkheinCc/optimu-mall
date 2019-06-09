@@ -1,0 +1,30 @@
+.wrapper {
+  .form {
+    padding-bottom: $spacing-v-xl;
+    label {
+      width: 9em;
+    }
+  }
+  .remarks {
+    padding: $spacing-v-xl $spacing-h-lg;
+    > view {
+      padding: $spacing-v-xs;
+    }
+    > view::before {
+      content: '';
+      width: .3em;
+      height: .3em;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: $spacing-h-sm;
+      background-color: $color-info;
+      border-radius: $border-radius-circle;
+    }
+  }
+  .next {
+    padding: $spacing-v-xl 20%;
+    &.is-apple-x {
+      border-bottom: 34PX solid white;
+    }
+  }
+}

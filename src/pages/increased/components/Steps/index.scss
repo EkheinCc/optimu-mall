@@ -1,0 +1,22 @@
+.steps {
+  padding: $spacing-v-xl 0;
+}
+/deep/ .at-steps__item {
+  .at-steps__title {
+    color: $color-error;
+    font-size: $font-size-sm;
+  }
+  .at-steps__circular {
+    color: $color-white;
+    background-color: $color-error;
+  }
+}
+.at-steps__item--active ~ .at-steps__item {
+  .at-steps__title {
+    color: $color-text-placeholder;
+  }
+  .at-steps__circular {
+    color: $color-text-placeholder;
+    background-color: $color-grey-4;
+  }
+}

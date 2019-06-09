@@ -1,0 +1,67 @@
+.wrapper {
+  .header {
+    padding: $spacing-v-xl $spacing-h-lg;
+  }
+  .scroll-view {
+    bottom: 0;
+    top: 210px;
+    width: 100%;
+    position: absolute;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+  }
+  .goods-info {
+    height: 3em;
+    padding: $spacing-v-sm $spacing-h-lg;
+    .goods-info-item {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+  .goods-poster {
+    .goods-poster-image {
+      height: 500px;
+      flex: 0 0 339px;
+      border-radius: $border-radius-sm;
+      margin: $spacing-v-sm $spacing-h-lg;
+    }
+    .goods-poster-image:nth-child(2n+1) {
+      margin-right: $spacing-v-sm;
+    }
+    .goods-poster-image:nth-child(2n+2) {
+      margin-left: $spacing-v-sm;
+    }
+  }
+  .goods-details-modal {
+    margin-top: -100px;
+    box-shadow: $box-shadow;
+    border-radius: $border-radius-lg;
+    padding: $spacing-v-xl $spacing-h-lg;
+    .goods-details-modal-header {
+      padding-top: $spacing-v-sm;
+      padding-bottom: $spacing-v-xl;
+    }
+    .goods-details-modal-content {
+      .copy {
+        height: 70px;
+        line-height: 70px;
+        margin: $spacing-v-md 20%;
+      }
+      image {
+        width: 250px;
+        height: 250px;
+        border-radius: $border-radius-sm;
+        margin: $spacing-v-xs $spacing-h-lg; 
+      }
+      image:nth-child(2n+1) {
+        margin-right: $spacing-h-sm;
+      }
+      image:nth-child(2n+2) {
+        margin-left: $spacing-h-sm;
+      }
+    }
+  }
+}

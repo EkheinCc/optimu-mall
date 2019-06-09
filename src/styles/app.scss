@@ -20,6 +20,10 @@ page {
     padding-bottom: 0;
   }
 }
+// 重写弹出层宽度
+.at-curtain__container {
+  width: 90%;
+}
 
 .clear-lh {
   line-height: 1;
@@ -43,12 +47,15 @@ page {
 }
 
 .flex {
-  display: flex;
+  display: flex !important;
   &-wrap {
     flex-wrap: wrap;
   }
   &-fill {
     flex: 1;
+  }
+  &-column {
+    flex-direction: column;
   }
   &-v-center {
     align-items: center;
@@ -78,28 +85,28 @@ page {
 
 .font {
   &-xs {
-    font-size: $font-size-xs;
+    font-size: $font-size-xs !important;
   }
   &-sm {
-    font-size: $font-size-sm;
+    font-size: $font-size-sm !important;
   }
   &-lg {
-    font-size: $font-size-lg;
+    font-size: $font-size-lg !important;
   }
   &-xl {
-    font-size: $font-size-xl;
+    font-size: $font-size-xl !important;
   }
   &-xxl {
-    font-size: $font-size-xxl;
+    font-size: $font-size-xxl !important;
   }
   &-base {
-    font-size: $font-size-base;
+    font-size: $font-size-base !important;
   }
   &-bold {
-    font-weight: bold;
+    font-weight: bold !important;
   }
   &-delete {
-    text-decoration: line-through;
+    text-decoration: line-through !important;
   }
 }
 

@@ -19,10 +19,23 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index',
-      'pages/order/index',
-      'pages/sales/index',
-      'pages/order/details/index',
+      'pages/increased/enter/step1/index',   // 门店录入信息
+      'pages/increased/enter/step2/index',   // 门店录入信息
+      'pages/increased/index',               // 门店录入
+      'pages/increased/reject/index',        // 驳回门店管理
+      'pages/extraction/index',              // 图文提取
+      'pages/index/index',                   // 首页
+      'pages/modify/index',                  // 修改密码
+      'pages/quick/index',                   // 快捷报单
+      'pages/member/index',                  // 查看会员
+      'pages/store/index',                   // 门店晒单
+      'pages/commission/index',              // 我的提成
+      'pages/service/sale/index',            // 售后服务
+      'pages/service/sale/details/index',    // 售后详情
+      'pages/service/index',                 // 退货/售后
+      'pages/order/index',                   // 订单管理
+      'pages/order/details/index',           // 订单详情
+      'pages/sales/index',                   // 我的排行 | 销量比拼
     ],
     window: {
       backgroundTextStyle: 'light',

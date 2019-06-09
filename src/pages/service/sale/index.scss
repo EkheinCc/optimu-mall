@@ -1,0 +1,36 @@
+.wrapper {
+  .scroll-view {
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    top: calc(35PX + 105px);
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+  }
+  .sale-card {
+    padding: $spacing-v-lg 0;
+    .sale-card-header {
+      padding: 0 $spacing-h-lg $spacing-v-xs;
+    }
+    .sale-card-content {
+      padding: $spacing-v-lg $spacing-h-lg 0;
+      .sale-goods {
+        margin-bottom: $spacing-v-lg;
+        .sale-goods-image {
+          width: 100px;
+          height: 100px;
+          margin-right: $spacing-h-md;
+        }
+        .sale-goods-name {
+          height: 3em;
+        }
+      }
+    }
+    .sale-card-footer {
+      > view {
+        padding: $spacing-v-sm $spacing-h-lg;
+      }
+    }
+  }
+}

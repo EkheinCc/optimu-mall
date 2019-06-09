@@ -1,0 +1,36 @@
+.wrapper {
+  .table-item,
+  .table-header {
+    padding: $spacing-v-md $spacing-h-lg;
+  }
+  .scroll-view {
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    top: calc(35PX + 105px);
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+  }
+  .table-item + .table-item {
+    @include border-thin($color-grey-5, solid, top, 1px);
+  }
+  .column {
+    padding: $spacing-v-xs $spacing-h-sm;
+  }
+  .column:nth-child(1) {
+    flex: 0 0 6em;
+  }
+  .column:nth-child(2) {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .column:nth-child(3) {
+    flex: 0 0 5em;
+  }
+  .column:nth-child(4) {
+    flex: 0 0 5em;
+  }
+}

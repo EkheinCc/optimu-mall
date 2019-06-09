@@ -5,9 +5,11 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 
 class OrderDetails extends Component {
+
   static config: Config = {
     navigationBarTitleText: '订单详情'
   }
+
   constructor(props: any) {
     super(props)
   }
@@ -15,7 +17,11 @@ class OrderDetails extends Component {
   componentDidMount() {
 
   }
-
+  /**
+   * @Author: Tainan
+   * @Description: 渲染订单商品
+   * @Date: 2019-06-06 15:24:15
+   */
   renderOrderGoods() {
     return (
       <View className="bg-white border-bottom-base order-goods">
@@ -46,7 +52,11 @@ class OrderDetails extends Component {
       </View>
     )
   }
-
+  /**
+   * @Author: Tainan
+   * @Description: 渲染订单详情
+   * @Date: 2019-06-06 15:24:15
+   */
   renderOrderDetail() {
     return (
       <View className="bg-white border-bottom-base">

@@ -1,0 +1,56 @@
+.wrapper {
+  .price {
+    padding: $spacing-v-md 0;
+    .price-number {
+      font-size: 70px;
+    }
+  }
+  .title {
+    padding: $spacing-v-lg 0;
+  }
+  .scroll-view {
+    bottom: 0;
+    top: 360px;
+    width: 100%;
+    position: absolute;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+  }
+  // 今日 本周 本月 list
+  .list {
+    padding: $spacing-v-md $spacing-h-lg;
+    .column {
+      text-align: center;
+      padding: 0 $spacing-h-sm;
+    }
+    .column:nth-child(1) {
+      flex: 1;
+      text-align: left;
+    }
+    .column:nth-child(2) {
+      flex: 0 0 5em;
+      @include border-thin($color-grey-5, solid, right, 1px);
+    }
+    .column:nth-child(3) {
+      flex: 0 0 3em;
+      @include border-thin($color-grey-5, solid, right, 1px);
+    }
+    .column:nth-child(4) {
+      flex: 0 0 3em;
+    }
+  }
+  .list + .list {
+    @include border-thin($color-grey-5, solid, top, 16px);
+  }
+  // 累计 list
+  .cumulative-list {
+    padding: 50px $spacing-h-lg 0;
+    .total {
+      padding: $spacing-v-xs 0 $spacing-v-md;
+    }
+    .item {
+      padding: $spacing-v-lg 0;
+    }
+  }
+}

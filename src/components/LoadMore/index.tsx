@@ -31,11 +31,11 @@ class Scroll extends Component {
     params: {
       page: 1,
       size: 20
+    },
+    default: {
+      page: 1,
+      size: 20
     }
-  }
-
-  constructor(props: any) {
-    super(props)
   }
 
   componentDidMount() {
@@ -49,11 +49,16 @@ class Scroll extends Component {
   init() {
     const props: any = this.props
     this.setState((prev: any) => {
-      const { size, ...args } = prev.params
       return {
+        scrollTop: 0,
+        status: 'more',
+        isBackTop: false,
+        isToLower: false,
+        isNoneData: true,
         params: {
-          ...args,
-          size: props.size || size
+          ...prev.params,
+          page: prev.default.page,
+          size: props.size || prev.default.size
         }
       }
     },this.refresh)
@@ -68,7 +73,11 @@ class Scroll extends Component {
       status: 'loading'
     }, () => {
       const props: any  = this.props
-      const params: any = Object.assign({}, props.params, this.state.params)
+      const { size, page } = this.state.params
+      const params: any = Object.assign({}, props.params, {
+        page,
+        size
+      })
       props.fetch(params).then((resp: any) => {
         const { total } = resp
         const { size, page } = params
@@ -86,8 +95,10 @@ class Scroll extends Component {
    * @Description: 刷新
    * @Date: 2019-06-04 18:03:36
    */
-  refresh() {
-    this.fetch()
+  refresh(isInit: boolean = false) {
+    isInit 
+      ? this.init() 
+      : this.fetch()
   }
   /**
    * @Author: Tainan

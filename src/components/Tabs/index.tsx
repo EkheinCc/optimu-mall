@@ -19,9 +19,15 @@ class Tabs extends Component {
     onChange: new Function()
   }
 
-  constructor(props: any) {
-    super(props)
+  public props: any
+
+  handleTabClick(item: any, index: any) {
+    const { active, onChange } = this.props
+    if (index !== active) {
+      onChange(item, index)
+    }
   }
+
   render() {
     const props:any = this.props
     return (
@@ -30,7 +36,7 @@ class Tabs extends Component {
           {props.tabs.map((item: any, index: number) =>   
             <View
               key={index}
-              onClick={props.onChange.bind(null, item, index)}
+              onClick={this.handleTabClick.bind(this, item, index)}
               className={classNames('item', 'flex-fill', { active: props.active === index })}>
               {item.label}
             </View>
