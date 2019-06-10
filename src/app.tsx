@@ -19,12 +19,17 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+      'pages/cash/record/index',             // 结算中心 -> 提现记录
+      'pages/index/index',                   // 首页
+      'pages/cash/query/index',              // 结算中心 -> 到帐查询
+      'pages/cash/details/index',            // 结算中心 -> 交易记录 | 明细
+      'pages/cash/query/details/index',      // 结算中心 -> 到帐查询 -> 到帐明细
+      'pages/cash/index',                    // 结算中心
+      'pages/increased/index',               // 门店录入
       'pages/increased/enter/step1/index',   // 门店录入信息
       'pages/increased/enter/step2/index',   // 门店录入信息
-      'pages/increased/index',               // 门店录入
       'pages/increased/reject/index',        // 驳回门店管理
       'pages/extraction/index',              // 图文提取
-      'pages/index/index',                   // 首页
       'pages/modify/index',                  // 修改密码
       'pages/quick/index',                   // 快捷报单
       'pages/member/index',                  // 查看会员

@@ -81,12 +81,13 @@ class Scroll extends Component {
       props.fetch(params).then((resp: any) => {
         const { total } = resp
         const { size, page } = params
+        props.onPullUp(resp)
+        // 没有更多了
         this.setState({
           isToLower: false,
           isNoneData: total === 0,
           status: page * size >= total ? 'noMore' : 'more'
-        }) // 没有更多了
-        props.onPullUp(resp)
+        })
       })
     })
   }

@@ -1,0 +1,37 @@
+.wrapper {
+  .cash-header {
+    position: relative;
+    padding: 50px 0 $spacing-v-xl;
+    .icon {
+      line-height: 1;
+      font-size: 200px;
+      margin-bottom: $spacing-v-xl;
+    }
+    .desc {
+      top: 0;
+      right: 0;
+      position: absolute;
+      display: inline-block;
+      margin: $spacing-v-xl $spacing-h-xl;
+    }
+    .price-number {
+      font-size: 60px;
+    }
+  }
+  .cash-info {
+    > view {
+      padding: $spacing-v-md 0;
+      .number {
+        margin-top: $spacing-v-xs;
+      }
+    }
+    .apply {
+      height: 80px;
+      line-height: 80px;
+      margin: $spacing-v-xl 10%;
+    }
+  }
+  .is-apple-x {
+    padding-bottom: 34PX;
+  }
+}

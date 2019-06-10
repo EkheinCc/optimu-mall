@@ -9,7 +9,7 @@ class Increased extends Component {
   }
 
   handleEnterClick() {
-    const url = formatUrl('/pages/increased/enter/step-1/index')
+    const url = formatUrl('/pages/increased/enter/step1/index')
     Taro.navigateTo({url})
   }
   handleRejectClick() {

@@ -195,6 +195,9 @@ page {
   &-top-1px {
     @include border-thin($color-grey-5, solid, top, 1px);
   }
+  &-right-1px {
+    @include border-thin($color-grey-5, solid, right, 1px);
+  }
   &-bottom-1px {
     @include border-thin($color-grey-5, solid, bottom, 1px);
   }

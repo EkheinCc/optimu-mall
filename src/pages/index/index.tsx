@@ -146,6 +146,7 @@ class Index extends Component {
     const url = ({
       3:  formatUrl('/pages/service/index'),
       4:  formatUrl('/pages/commission/index'),
+      5:  formatUrl('/pages/cash/index'),
       6:  formatUrl('/pages/sales/index'),
       7:  formatUrl('/pages/store/index'),
       9:  formatUrl('/pages/quick/index'),

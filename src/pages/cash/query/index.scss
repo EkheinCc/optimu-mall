@@ -1,0 +1,26 @@
+.wrapper {
+  .header {
+    padding: $spacing-v-sm $spacing-h-lg;
+    .timer {
+      margin-right: $spacing-h-xl;
+      padding-right: $spacing-h-xl;
+    }
+    // 对齐旁边
+    .price-number::after {
+      content: '';
+      font-size: $font-size-xxl;
+    }
+  }
+  .list {
+    padding: 0 $spacing-h-lg;
+    .list-timer {
+      padding: $spacing-v-md 0;
+    }
+    .list-content {
+      padding: $spacing-v-md 0;
+      .row + .row{
+        margin-top: $spacing-v-xs;
+      }
+    }
+  }
+}

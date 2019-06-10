@@ -1,0 +1,17 @@
+.wrapper {
+  .scroll-view {
+    bottom: 0;
+    top: 90px;
+    width: 100%;
+    position: absolute;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+  }
+  .list {
+    padding: $spacing-v-md $spacing-h-lg;
+    > view + view {
+      padding-top: $spacing-v-sm;
+    }
+  }
+}
