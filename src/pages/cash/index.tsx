@@ -52,11 +52,17 @@ class Cash extends Component {
     const url = formatUrl('/pages/cash/details/index')
     Taro.navigateTo({url})
   }
+  handleApplyClick() {
+    const url = formatUrl('/pages/cash/settlement/index')
+    Taro.navigateTo({url})
+  }
   handleListItemClick(id: number) {
     const url = ({
       1: formatUrl('/pages/cash/details/index'),
       2: formatUrl('/pages/cash/query/index'),
-      3: formatUrl('/pages/cash/record/index')
+      3: formatUrl('/pages/cash/record/index'),
+      4: formatUrl('/pages/commission/index'),
+      5: formatUrl('/pages/cash/subscriber/index')
     })[id]
     Taro.navigateTo({url})
   }
@@ -85,7 +91,7 @@ class Cash extends Component {
               <View className="number">0</View>
             </View>
           </View>
-          <AtButton className="font-base apply" type="primary">申请提现</AtButton>
+          <AtButton onClick={this.handleApplyClick} className="font-base apply" type="primary">申请提现</AtButton>
         </View>
         <View className={classNames({'is-apple-x': isAppleX()})}>
           {listItem.map((item: any) => 

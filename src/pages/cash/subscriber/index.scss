@@ -1,0 +1,25 @@
+.wrapper {
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  padding-top: 86px;
+  position: absolute;
+  background-color: white;
+  background-clip: content-box;
+  .header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    padding: $spacing-v-md $spacing-h-lg;
+    .icon {
+      margin-right: $spacing-h-sm;
+    }
+  }
+  .row {
+    padding: $spacing-v-md $spacing-h-lg;
+    .label {
+      width: 5em;
+    }
+  }
+}

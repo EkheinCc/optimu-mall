@@ -19,8 +19,10 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/cash/record/index',             // 结算中心 -> 提现记录
       'pages/index/index',                   // 首页
+      'pages/cash/settlement/index',         // 结算中心 -> 提现
+      'pages/cash/subscriber/index',         // 结算中心 -> 提现用户
+      'pages/cash/record/index',             // 结算中心 -> 提现记录
       'pages/cash/query/index',              // 结算中心 -> 到帐查询
       'pages/cash/details/index',            // 结算中心 -> 交易记录 | 明细
       'pages/cash/query/details/index',      // 结算中心 -> 到帐查询 -> 到帐明细

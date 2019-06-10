@@ -1,0 +1,39 @@
+.wrapper {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  padding-top: $spacing-v-xl;
+  background-color: $color-white;
+  .header {
+    padding: 0 $spacing-h-lg;
+    > view:nth-child(1) {
+      padding: $spacing-v-md 0;
+    }
+    > view:nth-child(2) {
+      padding: $spacing-v-md 0 $spacing-v-xs;
+    }
+    > view:nth-child(3) {
+      font-size: 70px;
+      padding: $spacing-v-sm 0 $spacing-v-xl;
+      &::before {
+        content: '￥';
+        color: $color-error;
+        margin-right: $spacing-h-sm;
+      }
+      input {
+        height: 1.4286em;
+      }
+      .placeholder {
+        font-size: $font-size-xxl;
+      }
+    }
+  }
+  .remarks {
+    padding: $spacing-v-xl $spacing-h-lg $spacing-v-md;
+  }
+  .cash-btn {
+    margin: $spacing-v-lg $spacing-h-xl;
+  }
+}
