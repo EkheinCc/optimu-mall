@@ -145,6 +145,7 @@ class Index extends Component {
   handleMenuClick(id) {
     const url = ({
       3:  formatUrl('/pages/service/index'),
+      2:  formatUrl('/pages/instead/index'),
       4:  formatUrl('/pages/commission/index'),
       5:  formatUrl('/pages/cash/index'),
       6:  formatUrl('/pages/sales/index'),
@@ -208,10 +209,7 @@ class Index extends Component {
     }).catch((error: any) => {
       const { errMsg } = error
       if (errMsg && errMsg.split(' ')[1] === 'cancel') return
-      Taro.atMessage({
-        type: 'error',
-        message: '头像上传失败~'
-      })
+      Taro.atMessage({ type: 'error', message: '头像上传失败~' })
     })
   }
   /**

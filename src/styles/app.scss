@@ -129,6 +129,9 @@ page {
   &-golden {
     color: $color-golden !important;
   }
+  &-origin {
+    color: $color-origin !important;
+  }
   &-silvery {
     color: $color-silvery !important;
   }
@@ -197,6 +200,9 @@ page {
   }
   &-right-1px {
     @include border-thin($color-grey-5, solid, right, 1px);
+  }
+  &-left-1px {
+    @include border-thin($color-grey-5, solid, left, 1px);
   }
   &-bottom-1px {
     @include border-thin($color-grey-5, solid, bottom, 1px);

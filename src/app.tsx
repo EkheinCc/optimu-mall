@@ -19,6 +19,7 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+      'pages/instead/index',                 // 代客下单
       'pages/index/index',                   // 首页
       'pages/cash/settlement/index',         // 结算中心 -> 提现
       'pages/cash/subscriber/index',         // 结算中心 -> 提现用户
@@ -48,8 +49,9 @@ class App extends Component {
       backgroundTextStyle: 'light',
       navigationBarTextStyle: 'black',
       navigationBarTitleText: 'WeChat',
-      navigationBarBackgroundColor: '#fff'
-    }
+      navigationBarBackgroundColor: '#fff',
+      onReachBottomDistance: 50
+    },
   }
 
   componentDidMount () {}

@@ -196,6 +196,7 @@ class Scroll extends Component {
           scrollWithAnimation={true}
           scrollIntoView={props.scrollIntoView}
           lowerThreshold={props.lowerThreshold}
+          upperThreshold={props.upperThreshold}
           enableBackToTop={props.enableBackToTop}
           onScroll={this.handleScroll.bind(this)}
           onScrollToLower={this.handleScrollToLower.bind(this)}>
