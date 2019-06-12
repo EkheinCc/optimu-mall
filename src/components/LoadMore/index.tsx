@@ -106,8 +106,13 @@ class Scroll extends Component {
    * @Description: 浮动按钮点击 滚动到顶部
    * @Date: 2019-06-05 12:32:09
    */
-  handleFabClick() {
+  handleFabBackTopClick() {
     this.setState({scrollTop: Math.random()})
+  }
+  handleFabRefreshClick() {
+    const props: any = this.props
+    props.onPullDown()
+      .then(() => this.refresh(true))
   }
   /**
    * @Author: Tainan
@@ -170,15 +175,20 @@ class Scroll extends Component {
    * @Description: 渲染返回顶部
    * @Date: 2019-06-05 11:53:07
    */
-  renderBackTop() {
+  renderFabButton() {
     const { isBackTop } = this.state
     return (
-      <View className={
-        classNames('fab-wrapper', [isBackTop ? 'fadeIn' : 'fadeOut'])
-      }>
-        <AtFab size="small" onClick={this.handleFabClick.bind(this)}>
-          <Text className="at-fab__icon iconfont icon-back-top font-xxl"/>
-        </AtFab>
+      <View className="fab">
+        {/* <View className={classNames('refresh')}>
+          <AtFab size="small" onClick={this.handleFabRefreshClick.bind(this)}>
+            <View className="at-fab__icon iconfont icon-refresh font-xxl" />
+          </AtFab>
+        </View> */}
+        <View className={classNames('back-top', [isBackTop ? 'fadeIn' : 'fadeOut'])}>
+          <AtFab size="small" onClick={this.handleFabBackTopClick.bind(this)}>
+            <View className="at-fab__icon iconfont icon-back-top font-xxl"/>
+          </AtFab>
+        </View>
       </View>
     )
   }
@@ -208,7 +218,7 @@ class Scroll extends Component {
           }
         </ScrollView>
         {/* 回到顶部 */}
-        {this.renderBackTop()}
+        {this.renderFabButton()}
       </View>
     )
   }

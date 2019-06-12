@@ -19,8 +19,9 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/instead/index',                 // 代客下单
       'pages/index/index',                   // 首页
+      'pages/instead/home/index',            // 代客下单 -> 首页
+      'pages/instead/cart/index',            // 代客下单 -> 购物车
       'pages/cash/settlement/index',         // 结算中心 -> 提现
       'pages/cash/subscriber/index',         // 结算中心 -> 提现用户
       'pages/cash/record/index',             // 结算中心 -> 提现记录

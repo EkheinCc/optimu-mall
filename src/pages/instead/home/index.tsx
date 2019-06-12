@@ -1,40 +1,51 @@
 import './index.scss'
 import { isAppleX } from '@/utils'
 import classNames from 'classnames'
-import * as $cart from '@/api/cart'
+import { goods as db } from '@/api/db'
+import TabBar from '../components/TabBar'
+import Stepper from '@/components/Stepper'
 import LoadMore from '@/components/LoadMore'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, Text, Block } from '@tarojs/components'
-import { AtButton, AtTabBar, AtTag, AtSearchBar } from 'taro-ui'
+import { AtButton, AtTag, AtSearchBar } from 'taro-ui'
 
-class Instead extends Component {
+class Home extends Component {
   static config: Config = {
     navigationBarTitleText: '代客下单'
   }
-
   public $refs: any = {
     loadMore: null
   }
   public state: any = {
     list: [],
-    active: 0,
-    tabs: [{
-      title: '首页',
-      iconType: 'icon-home'
-    },{
-      title: '购物车',
-      iconType: 'icon-cart',
-      text: '',
-      max: 999
-    },{
-      title: '我的',
-      iconType: 'icon-mine'
-    }],
     form: {
       search: ''
     }
   }
 
+  componentDidMount() {
+  }
+
+  total(): number {
+    // 取count的总和
+    return this.state.list
+      .filter((item: any) => item._count)
+      .map((item: any) => item._count)
+      .reduce((prev, next) => (prev + next), 0)
+  }
+  handleTabBarClick(index: number) {
+    const { list } = this.state
+    // 保存购物车信息
+    db.setGoods(list.filter((item: any) => item._count))
+    switch (index) {
+      case 1:
+        Taro.navigateTo({ url: '/pages/instead/cart/index' })
+        break
+      case 2:
+        Taro.navigateBack()
+        break
+    }
+  }
   handlePullUp(resp: any) {
     this.setState(function (prev: any) {
       return {
@@ -45,27 +56,40 @@ class Instead extends Component {
   handleFetchData(params: any) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
+        const goods = db.getGoods()
         resolve({
           total: 100,
-          rows: Array.from({length: params.size}, () => ({id: Math.random()}))
+          rows: Array.from({ length: params.size }, (item: any, index: number, ) => { 
+            const id = params.page * params.size + index
+            const { _count = 0 } = goods.find((item: any) => item.id === id) || new Object()
+            return {
+              id, _count
+            }
+          })
         })
       }, 1500)
     })
   }
-  handleAddGoods(goods: any) {
+  handleIncreaseGoods(goods: any) {
     this.setState(function (prev: any) {
-      $cart.add(goods)
-      const { length } = $cart.get()
-      const tabs = [...prev.tabs]
-      tabs[1]['text'] = length || ''
-      return { tabs }
+      return {
+        list: prev.list.map((item: any) => {
+          return item.id === goods.id
+            ? { ...item, _count: (item._count || 0) + 1 }
+            : { ...item }
+        })
+      }
     })
   }
-  handleTabsClick(index: any) {
+  handleSubtractGoods(goods: any) {
     this.setState(function (prev:any) {
-      return prev.active !== index ? {
-        active: index
-      } : false
+      return {
+        list: prev.list.map((item: any) => {
+          return item.id === goods.id
+            ? { ...item, _count: item._count - 1 }
+            : { ...item }
+        })
+      }
     })
   }
   handleSearchAction() {
@@ -80,11 +104,6 @@ class Instead extends Component {
         }
       }
     })
-  }
-  renderCartList() {
-    return (
-      <View></View>
-    )
   }
   renderGoodsList() {
     const { list } = this.state
@@ -128,11 +147,18 @@ class Instead extends Component {
             <View className="flex flex-v-center goods-price">
               <View className="font-bold color-error price">7.5</View>
               <View className="flex-fill color-grey-2 font-delete old-price">12</View>
-              <AtButton
-                circle
-                type="primary"
-                onClick={this.handleAddGoods.bind(this)}
-                className="font-lg goods-add">加入购物车</AtButton>
+              {item._count
+                ? <Stepper
+                    size={50}
+                    number={item._count}
+                    onSubtract={this.handleSubtractGoods.bind(this, item)}
+                    onIncrease={this.handleIncreaseGoods.bind(this, item)}/>
+                : <AtButton
+                    circle
+                    type="primary"
+                    onClick={this.handleIncreaseGoods.bind(this, item)}
+                    className="font-base goods-add">加入购物车</AtButton>
+              }
             </View>
             <View className="flex flex-v-center border-top-1px goods-buyer">
               <Image src="https://img2.woyaogexing.com/2019/05/27/67a31b8974504cdcaed89999ec80a7be!400x400.jpeg"/>
@@ -150,7 +176,7 @@ class Instead extends Component {
     )
   }
   render() {
-    const { tabs, active, form } = this.state
+    const { form } = this.state
     return (
       <View className="wrapper">
         <AtSearchBar
@@ -161,22 +187,19 @@ class Instead extends Component {
           onActionClick={this.handleSearchAction.bind(this)}/>
         <View className={classNames('scroll-view', { 'is-apple-x': isAppleX() })}>
           <LoadMore
+            size={10}
             fetch={this.handleFetchData}
             onPullUp={this.handlePullUp.bind(this)}>
             {this.renderGoodsList()}
           </LoadMore>
         </View>
-        <AtTabBar
-          fixed
-          color="#666"
-          iconSize={25}
-          current={active}
-          selectedColor="#78A4F4"
-          onClick={this.handleTabsClick.bind(this)}
-          tabList={tabs.map((tab: any) => ({ ...tab, iconType: ' iconfont ' + tab.iconType }))}/>
+        <TabBar
+          active={0}
+          total={this.total()}
+          onClick={this.handleTabBarClick.bind(this)} />
       </View>
     )
   }
 }
 
-export default Instead
+export default Home
