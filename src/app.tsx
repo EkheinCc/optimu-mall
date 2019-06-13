@@ -19,15 +19,10 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-<<<<<<< HEAD
-=======
       'pages/instead/details/index',         // 代客下单 -> 详情页
       'pages/index/index',                   // 首页
       'pages/instead/home/index',            // 代客下单 -> 首页
->>>>>>> 64b050dad5442cbd345509008fb4f229d003e6af
       'pages/instead/cart/index',            // 代客下单 -> 购物车
-      'pages/instead/home/index',            // 代客下单 -> 首页
-      'pages/index/index',                   // 首页
       'pages/cash/settlement/index',         // 结算中心 -> 提现
       'pages/cash/subscriber/index',         // 结算中心 -> 提现用户
       'pages/cash/record/index',             // 结算中心 -> 提现记录

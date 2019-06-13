@@ -1,4 +1,8 @@
 .wrapper {
+  padding-bottom: 110px;
+  &.is-apple-x {
+    padding-bottom: calc(34PX + 110px);
+  }
   .at-tabs {
     .at-tabs__item-underline {
       left: 30%;
@@ -113,6 +117,29 @@
           margin-top: $spacing-v-xs;
         }
       }
+    }
+  }
+  .goods-action {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    position: fixed;
+    text-align: center;
+    align-items: center;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+    .goods-action-icon-btn {
+      width: 21%;
+      @include border-thin($color-grey-5, solid, top, 1px);
+    }
+    .goods-action-text-btn {
+      height: 110px;
+      line-height: 110px;
+      color: $color-white;
+      font-size: $font-size-lg;
     }
   }
 }

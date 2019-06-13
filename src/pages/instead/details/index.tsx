@@ -1,7 +1,9 @@
 import './index.scss'
+import { isAppleX } from '@/utils'
+import classNames from 'classnames'
 import Taro, { Component, Config } from '@tarojs/taro' 
-import { View, Swiper, SwiperItem, Image, Text } from '@tarojs/components'
-import { AtTabs, AtCountdown, AtDivider, AtTimeline } from 'taro-ui'
+import { View, Swiper, SwiperItem, Image, Text, Block } from '@tarojs/components'
+import { AtTabs, AtCountdown, AtDivider, AtTimeline, AtBadge } from 'taro-ui'
 
 
 const tabs: any = [
@@ -57,17 +59,20 @@ class Details extends Component {
   handleTabsClick(index) {
     this.setState({active: index})
   }
-  render() {
-    const { active } = this.state
+  renderGoodsHistory() {
     return (
-      <View className="wrapper">
-        <AtTabs current={active} tabList={tabs} onClick={this.handleTabsClick.bind(this)}/>
+      <View>购买记录</View>
+    )
+  }
+  renderGoodsInfos() {
+    return (
+      <Block>
         <Swiper className="swiper" interval={3000} indicatorDots autoplay circular>
           <SwiperItem>
-            <Image src="https://img2.woyaogexing.com/2019/06/12/0bc4bb1277cd4b5c8275dfad2af2e40a!400x400.jpeg"/>
+            <Image src="https://img2.woyaogexing.com/2019/06/12/0bc4bb1277cd4b5c8275dfad2af2e40a!400x400.jpeg" />
           </SwiperItem>
           <SwiperItem>
-            <Image src="https://img2.woyaogexing.com/2019/06/12/440f12a96e0e4d6ab7543833626ebd53!400x400.jpeg"/>
+            <Image src="https://img2.woyaogexing.com/2019/06/12/440f12a96e0e4d6ab7543833626ebd53!400x400.jpeg" />
           </SwiperItem>
         </Swiper>
         <View className="flex flex-v-center clear-lh goods-header">
@@ -78,7 +83,7 @@ class Details extends Component {
             <AtCountdown
               minutes={1} seconds={10}
               className="bg-white goods-activity-time"
-              format={{ hours: '：', minutes: '：', seconds: '' }}/>
+              format={{ hours: '：', minutes: '：', seconds: '' }} />
           </View>
         </View>
         <View className="bg-white border-bottom-base goods-title">
@@ -108,7 +113,7 @@ class Details extends Component {
           </View>
         </View>
         <View className="bg-white border-bottom-base goods-infos">
-          <AtDivider className="divider" fontSize={40} content='商品详情' fontColor='#78A4FA' lineColor='#78A4FA' />
+          <AtDivider className="divider" fontSize={35} content='商品详情' fontColor='#78A4FA' lineColor='#78A4FA' />
           <View className="goods-infos-table">
             <View className="row">
               <View className="cell">供应商：一瓶瑞达商行</View>
@@ -119,23 +124,52 @@ class Details extends Component {
               <View className="cell">场地：中国</View>
             </View>
           </View>
-          <AtDivider className="divider" fontSize={40} content='图文详情' fontColor='#78A4FA' lineColor='#78A4FA' />
+          <AtDivider className="divider" fontSize={35} content='图文详情' fontColor='#78A4FA' lineColor='#78A4FA' />
           <View className="goods-infos-texts">
             <View>强烈推荐：食品级材质 安全放心 食品级材质 安全放心</View>
             <View>生产日期：2019年04月05日</View>
           </View>
           <View className="goods-infos-image">
-            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg"/>
-            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg"/>
-            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg"/>
-            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg"/>
-            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg"/>
+            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg" />
+            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg" />
+            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg" />
+            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg" />
+            <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg" />
           </View>
         </View>
         <View className="bg-white goods-guide">
           <View className="text-center font-lg font-bold border-bottom-1px goods-guide-title">兴盛优选购物指南</View>
-          <AtTimeline className="goods-guide-content" items={items}/>
+          <AtTimeline className="goods-guide-content" items={items} />
         </View>
+      </Block>
+    )
+  }
+  renderGoodsAction() {
+    return (
+      <View className={classNames('bg-white', 'goods-action', { 'is-apple-x': isAppleX() })}>
+        <View className="goods-action-icon-btn">
+          <View className="color-info iconfont font-xxl icon-home"/>
+          <View className="color-grey-2">首页</View>
+        </View>
+        <View className="goods-action-icon-btn">
+          <AtBadge value={10} maxValue={99}>
+            <View className="color-warning iconfont font-xxl icon-cart"/>
+          </AtBadge>
+          <View className="color-grey-2">购物车</View>
+        </View>
+        <View className="flex-fill bg-origin goods-action-text-btn">加入购物车</View>
+        <View className="flex-fill bg-error  goods-action-text-btn">立即购买</View>
+      </View>
+    )
+  }
+  render() {
+    const { active } = this.state
+    return (
+      <View className={classNames('wrapper', { 'is-apple-x': isAppleX() })}>
+        <AtTabs current={active} tabList={tabs} onClick={this.handleTabsClick.bind(this)}/>
+        {this.renderGoodsAction()}
+        {active === 0 && this.renderGoodsInfos()}
+        {active === 1 && this.renderGoodsHistory()}
       </View>
     )
   }
