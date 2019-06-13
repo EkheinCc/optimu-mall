@@ -19,6 +19,7 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+      'pages/instead/details/index',         // 代客下单 -> 详情页
       'pages/index/index',                   // 首页
       'pages/instead/home/index',            // 代客下单 -> 首页
       'pages/instead/cart/index',            // 代客下单 -> 购物车
