@@ -9,7 +9,7 @@ class Service extends Component {
   }
   
   handleAfterSale() {
-    const url = formatUrl('/pages/service/sale')
+    const url = formatUrl('/pages/service/sale/index')
     Taro.navigateTo({url})
   }
 
