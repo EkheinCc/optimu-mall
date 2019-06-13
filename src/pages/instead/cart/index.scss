@@ -74,10 +74,16 @@
     .total {
       padding: 0 $spacing-h-xl;
     }
+    .delete,
     .settlement {
       width: 30%;
       height: 100px;
       line-height: 100px;
+    }
+    .delete {
+      background-color: $color-info;
+    }
+    .settlement {
       background-color: $color-error;
     }
   }
