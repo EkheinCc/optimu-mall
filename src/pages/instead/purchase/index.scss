@@ -1,0 +1,30 @@
+.wrapper {
+  padding-top: $spacing-v-md;
+  .at-input {
+    margin: 0;
+    line-height: 0;
+    background-color: transparent;
+    padding: $spacing-v-xs $spacing-h-lg;
+    label,
+    input {
+      line-height: 1.428;
+      font-size: $font-size-base;
+    }
+    label {
+      width: 7.5em;
+      color: $color-grey-2;
+    }
+    input {
+      padding-right: 0;
+      margin-right: $spacing-h-md;
+      @include border-thin($color-info, solid, bottom);
+    }
+    .placeholder {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+  .order-info {
+    padding: $spacing-v-sm $spacing-h-lg;
+  }
+}

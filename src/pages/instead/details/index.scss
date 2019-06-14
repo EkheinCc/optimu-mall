@@ -23,10 +23,18 @@
     width: 70%;
     margin: 0 auto;
   }
-  .goods-header {
-    background: #FEB692;
-    padding: $spacing-v-md $spacing-h-lg;
-    background-image: linear-gradient( 90deg, #FEB692 10%, #EA5455 100%);
+  .scroll-view {
+    left: 0;
+    right: 0;
+    top: 90px;
+    bottom: 110px;
+    position: absolute;
+  }
+
+  .goods-base-header {
+    background: #ff5858;
+    padding: $spacing-v-sm $spacing-h-lg;
+    background-image: linear-gradient( 45deg, #ff5858 10%, #f09819 100%);
     .goods-now-price,
     .goods-old-price {
       &::before {
@@ -54,7 +62,7 @@
       }
     }
   }
-  .goods-title {
+  .goods-base-title {
     padding: $spacing-v-md $spacing-h-lg;
     .goods-concern {
       padding: $spacing-v-md 0;
@@ -67,12 +75,13 @@
       padding: $spacing-v-md 0 0;
     }
   }
-  .goods-infos {
+  .goods-base-infos {
     padding: $spacing-v-sm $spacing-h-lg $spacing-v-lg;
     .goods-infos-table {
       width: 100%;
       display: table;
-      border-collapse: collapse;
+      @include border-thin($color-grey-5, solid, right);
+      @include border-thin($color-grey-5, solid, bottom);
       .row {
         display: table-row;
       }
@@ -80,8 +89,9 @@
         width: 50%;
         display: table-cell;
         vertical-align: middle;
-        @include border-thin($color-grey-5);
         padding: $spacing-v-lg $spacing-h-lg;
+        @include border-thin($color-grey-5, solid, top);
+        @include border-thin($color-grey-5, solid, left);
       }
     }
     .goods-infos-texts {
@@ -96,9 +106,20 @@
       }
     }
   }
-  .goods-guide {
+  .goods-base-guide {
     .goods-guide-title {
       padding: $spacing-v-lg 0;
+      position: relative;
+      &::after {
+        bottom: 0;
+        left: 50%;
+        content: '';
+        border: 20px;
+        position: absolute;
+        border-style: solid;
+        transform: translate(-50%, 100%);
+        border-color: $color-info transparent transparent;
+      }
     }
     .goods-guide-content {
       padding: $spacing-v-xl * 2 $spacing-h-lg $spacing-v-xl;
@@ -124,6 +145,7 @@
     right: 0;
     bottom: 0;
     z-index: 999;
+    height: 110px;
     display: flex;
     position: fixed;
     text-align: center;
@@ -133,13 +155,54 @@
     }
     .goods-action-icon-btn {
       width: 21%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       @include border-thin($color-grey-5, solid, top, 1px);
     }
     .goods-action-text-btn {
-      height: 110px;
       line-height: 110px;
       color: $color-white;
       font-size: $font-size-lg;
+    }
+  }
+  .goods-history-header {
+    padding: $spacing-v-md 0;
+  }
+  .goods-history-table {
+    width: 100%;
+    display: table;
+    box-sizing: border-box;
+    padding: 0 $spacing-h-lg;
+    .row {
+      display: table-row;
+    }
+    .cell {
+      display: table-cell;
+      vertical-align: middle;
+      padding: $spacing-v-md 1%;
+      .avatar {
+        width: 70px;
+        height: 70px;
+        vertical-align: middle;
+        margin-right: $spacing-h-sm;
+        border-radius: $border-radius-circle;
+      }
+      .nickname {
+        width: 7em;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+        text-overflow: ellipsis;
+      }
+    }
+    .cell:nth-child(2) {
+      width: 18%;
+    }
+    .cell:nth-child(3) {
+      width: 38%;
     }
   }
 }

@@ -2,8 +2,8 @@ import './index.scss'
 import { isAppleX } from '@/utils'
 import classNames from 'classnames'
 import Taro, { Component, Config } from '@tarojs/taro' 
-import { View, Swiper, SwiperItem, Image, Text, Block } from '@tarojs/components'
 import { AtTabs, AtCountdown, AtDivider, AtTimeline, AtBadge } from 'taro-ui'
+import { View, Swiper, SwiperItem, Image, Text, Block, ScrollView } from '@tarojs/components'
 
 
 const tabs: any = [
@@ -61,10 +61,35 @@ class Details extends Component {
   }
   renderGoodsHistory() {
     return (
-      <View>购买记录</View>
+      <Block>
+        <View className="bg-white font-sm text-center goods-history-header">
+          <Text>目前共 </Text>
+          <Text className="color-info">693</Text>
+          <Text> 人参与购买，商品共售 </Text>
+          <Text className="color-info">933</Text>
+          <Text> 份</Text>
+        </View>
+        <View className="bg-white font-sm goods-history-table">
+          {Array.from({ length: 30 }, () => ({ id: Math.random() })).map((item: any) => 
+            <View key={item.id} className="row">
+              <View className="cell">
+                <Image className="avatar" src="https://img.tuzhaozhao.com/2019/03/13/b2ec25f9bd4d2f01_300x300.jpg"/>
+                {item.id > 0.5  && <Text className="nickname">啊啊啊啊啊啊啊啊啊</Text>}
+                {item.id <= 0.5 && <Text className="nickname">啊啊啊啊</Text>}
+              </View>
+              <View className="cell">
+                <Text className="color-info">{(99 * item.id).toFixed(2)}</Text>
+                <Text> 份</Text>
+              </View>
+              <View className="cell">2019-06-14 11:39:48</View>
+            </View>
+          )}
+        </View>
+      </Block>
+        
     )
   }
-  renderGoodsInfos() {
+  renderGoodsBase() {
     return (
       <Block>
         <Swiper className="swiper" interval={3000} indicatorDots autoplay circular>
@@ -75,18 +100,18 @@ class Details extends Component {
             <Image src="https://img2.woyaogexing.com/2019/06/12/440f12a96e0e4d6ab7543833626ebd53!400x400.jpeg" />
           </SwiperItem>
         </Swiper>
-        <View className="flex flex-v-center clear-lh goods-header">
+        <View className="flex flex-v-center clear-lh goods-base-header">
           <View className="color-white  font-bold goods-now-price">2.9</View>
           <View className="color-grey-4 font-delete flex-fill goods-old-price">8.5</View>
           <View className="text-center">
-            <View className="color-white">距离商品结束还剩：</View>
+            <View className="font-sm color-white">距离商品结束还剩：</View>
             <AtCountdown
               minutes={1} seconds={10}
               className="bg-white goods-activity-time"
               format={{ hours: '：', minutes: '：', seconds: '' }} />
           </View>
         </View>
-        <View className="bg-white border-bottom-base goods-title">
+        <View className="bg-white border-bottom-base goods-base-title">
           <View className="flex flex-v-center border-bottom-1px goods-concern">
             <View className="flex-fill">
               <View className="font-lg font-bold">名彩 一次性手套 100只/份</View>
@@ -112,7 +137,7 @@ class Details extends Component {
             </View>
           </View>
         </View>
-        <View className="bg-white border-bottom-base goods-infos">
+        <View className="bg-white border-bottom-base goods-base-infos">
           <AtDivider className="divider" fontSize={35} content='商品详情' fontColor='#78A4FA' lineColor='#78A4FA' />
           <View className="goods-infos-table">
             <View className="row">
@@ -137,7 +162,7 @@ class Details extends Component {
             <Image src="https://img2.woyaogexing.com/2019/06/09/f480cc72196b498fb81df2d2dd77cf77!400x400.jpeg" />
           </View>
         </View>
-        <View className="bg-white goods-guide">
+        <View className="bg-white goods-base-guide">
           <View className="text-center font-lg font-bold border-bottom-1px goods-guide-title">兴盛优选购物指南</View>
           <AtTimeline className="goods-guide-content" items={items} />
         </View>
@@ -148,14 +173,14 @@ class Details extends Component {
     return (
       <View className={classNames('bg-white', 'goods-action', { 'is-apple-x': isAppleX() })}>
         <View className="goods-action-icon-btn">
-          <View className="color-info iconfont font-xxl icon-home"/>
-          <View className="color-grey-2">首页</View>
+          <View className="color-info iconfont font-xl icon-home"/>
+          <View className="font-sm color-grey-2">首页</View>
         </View>
         <View className="goods-action-icon-btn">
           <AtBadge value={10} maxValue={99}>
-            <View className="color-warning iconfont font-xxl icon-cart"/>
+            <View className="color-warning iconfont font-xl icon-cart"/>
           </AtBadge>
-          <View className="color-grey-2">购物车</View>
+          <View className="font-sm color-grey-2">购物车</View>
         </View>
         <View className="flex-fill bg-origin goods-action-text-btn">加入购物车</View>
         <View className="flex-fill bg-error  goods-action-text-btn">立即购买</View>
@@ -167,9 +192,11 @@ class Details extends Component {
     return (
       <View className={classNames('wrapper', { 'is-apple-x': isAppleX() })}>
         <AtTabs current={active} tabList={tabs} onClick={this.handleTabsClick.bind(this)}/>
+        <ScrollView className="scroll-view" scrollY scrollWithAnimation>
+          {active === 0 && this.renderGoodsBase()}
+          {active === 1 && this.renderGoodsHistory()}
+        </ScrollView>
         {this.renderGoodsAction()}
-        {active === 0 && this.renderGoodsInfos()}
-        {active === 1 && this.renderGoodsHistory()}
       </View>
     )
   }
