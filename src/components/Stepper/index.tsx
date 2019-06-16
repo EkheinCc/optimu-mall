@@ -9,22 +9,23 @@ class Stepper extends Component {
   }
 
   public props: any
-  handleSubtract(event: any) {
-    event.stopPropagation()
+  handleSubtract() {
     const { min, number, onSubtract } = this.props
     if (number <= min) return
     onSubtract()
   }
-  handleIncrease(event: any) {
-    event.stopPropagation()
+  handleIncrease() {
     const { max, number, onIncrease } = this.props
     if (number >= max) return
     onIncrease()
   }
+  handleStopPropagation(event: any) {
+    event.stopPropagation()
+  }
   render() {
     const size = Taro.pxTransform(this.props.size || 30)
     return (
-      <View className="flex flex-v-center stepper">
+      <View onClick={this.handleStopPropagation} className="flex flex-v-center stepper">
         <View
           style={{ width: size, height: size }}
           onClick={this.handleSubtract.bind(this)}

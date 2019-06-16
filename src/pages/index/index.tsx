@@ -1,4 +1,5 @@
 import './index.scss'
+import $base from '@/api/base'
 import { formatUrl } from '@/utils'
 import avatar from '@/assets/avatar.png'
 import { uploadFile } from '@/api/upload'
@@ -21,28 +22,24 @@ class Index extends Component {
       'ec-canvas': '../../ec-canvas/ec-canvas'
     }
   }
-
   public $refs: any = {
     pieChart: null
   }
-
   public state: any = {
     address: '',
     form: {
       autograph: ''
     }
   }
-
-  constructor(props: any) {
-    super(props)
-  }
-
   componentDidMount() {
+    $base.index().then(resp => {
+      console.log(resp)
+    })
     this.getLocation()
     this.refreshChart()
-    setTimeout(() => {
-      this.refreshChart(10, 100)
-    }, 3000);
+    // setTimeout(() => {
+    //   this.refreshChart(10, 100)
+    // }, 3000);
   }
 
   componentWillUnmount () { }
@@ -145,7 +142,7 @@ class Index extends Component {
   handleMenuClick(id) {
     const url = ({
       3:  formatUrl('/pages/service/index'),
-      2:  formatUrl('/pages/instead/index'),
+      2:  formatUrl('/pages/instead/home/index'),
       4:  formatUrl('/pages/commission/index'),
       5:  formatUrl('/pages/cash/index'),
       6:  formatUrl('/pages/sales/index'),

@@ -5,6 +5,9 @@
     line-height: 0;
     background-color: transparent;
     padding: $spacing-v-xs $spacing-h-lg;
+    .at-input__children::after {
+      display: none;
+    }
     label,
     input {
       line-height: 1.428;
@@ -24,7 +27,83 @@
       pointer-events: none;
     }
   }
-  .order-info {
+  .order-info,
+  .order-title,
+  .order-goods {
     padding: $spacing-v-sm $spacing-h-lg;
+  }
+  .order-info {
+    line-height: 1.8;
+    margin-bottom: $spacing-v-xl;
+    padding-bottom: $spacing-v-lg;
+    border-image: repeating-linear-gradient(
+      135deg, 
+      $color-white 0%, $color-white 1%,
+      $color-info  1%, $color-info  4%, 
+      $color-white 4%, $color-white 5%,
+      $color-error 5%, $color-error 8%
+    ) 3 repeat;
+    border-width: 0 0 5px;
+    border-style: hidden hidden solid; 
+  }
+  .order-goods {
+    .order-goods-name {
+      height: 3em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .order-goods-image {
+      width: 200px;
+      height: 200px;
+      margin-right: $spacing-h-md;
+    }
+    .order-goods-time,
+    .order-goods-specs {
+      line-height: 1.5;
+    }
+    .order-goods-price,
+    .order-goods-number {
+      &::after {
+        content: '';
+        font-size: $font-size-lg;
+      }
+    }
+    .order-goods-price {
+      margin-right: $spacing-h-lg;
+      &::before {
+        content: '￥';
+        font-size: $font-size-xs;
+        margin-right: $spacing-v-xs;
+      }
+    }
+  }
+  .order-total {
+    line-height: 1.8;
+    padding: $spacing-v-xs $spacing-h-lg;
+    > view > view:nth-child(2) {
+      width: 150px;
+    } 
+  }
+  .order-action {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 110px;
+    position: fixed;
+    line-height: 110px;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
+    > view:nth-child(1) {
+      padding-left: $spacing-h-lg;
+      margin-right: $spacing-h-xl;
+    }
+    .order-action-submit {
+      width: 250px;
+      height: 100%;
+      background-color: $color-success;
+    }
   }
 }

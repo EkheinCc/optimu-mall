@@ -1,7 +1,18 @@
+import '@tarojs/async-await'
 import Taro, { Component, Config } from '@tarojs/taro'
+import { Provider } from '@tarojs/redux'
+import dva from '@/utils/dva'
+import models from '@/models'
 import Index from '@/pages/index'
 import '@/iconfont/iconfont.css'
 import '@/styles/app.scss'
+
+const dvaApp = dva.createApp({
+  models,
+  initialState: {}
+})
+const store = dvaApp.getStore();   //  getStore是一个函数！！！要执行！！！
+
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -19,10 +30,11 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/instead/purchase/index',        // 代客下单 -> 确认订单
-      'pages/instead/details/index',         // 代客下单 -> 详情页
       'pages/index/index',                   // 首页
+      'pages/login/index',                   // 登录
       'pages/instead/home/index',            // 代客下单 -> 首页
+      'pages/instead/details/index',         // 代客下单 -> 详情页
+      'pages/instead/purchase/index',        // 代客下单 -> 确认订单
       'pages/instead/cart/index',            // 代客下单 -> 购物车
       'pages/cash/settlement/index',         // 结算中心 -> 提现
       'pages/cash/subscriber/index',         // 结算中心 -> 提现用户
@@ -55,6 +67,11 @@ class App extends Component {
       navigationBarBackgroundColor: '#fff',
       onReachBottomDistance: 50
     },
+    permission: {
+      'scope.userLocation': {
+        desc: '你的位置信息将用于定位您的门店地址'
+      }
+    }
   }
 
   componentDidMount () {}
@@ -69,7 +86,9 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Index />
+      <Provider store={store}>
+        <Index />
+      </Provider>
     )
   }
 }

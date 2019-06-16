@@ -1,6 +1,6 @@
 import './index.scss'
-import { isAppleX } from '@/utils'
 import classNames from 'classnames'
+import { isAppleX, formatUrl } from '@/utils'
 import Taro, { Component, Config } from '@tarojs/taro' 
 import { AtTabs, AtCountdown, AtDivider, AtTimeline, AtBadge } from 'taro-ui'
 import { View, Swiper, SwiperItem, Image, Text, Block, ScrollView } from '@tarojs/components'
@@ -59,6 +59,10 @@ class Details extends Component {
   handleTabsClick(index) {
     this.setState({active: index})
   }
+  handlePurchaseClick() {
+    const url = formatUrl('/pages/instead/purchase/index')
+    Taro.navigateTo({url})
+  }
   renderGoodsHistory() {
     return (
       <Block>
@@ -86,7 +90,6 @@ class Details extends Component {
           )}
         </View>
       </Block>
-        
     )
   }
   renderGoodsBase() {
@@ -183,7 +186,9 @@ class Details extends Component {
           <View className="font-sm color-grey-2">购物车</View>
         </View>
         <View className="flex-fill bg-origin goods-action-text-btn">加入购物车</View>
-        <View className="flex-fill bg-error  goods-action-text-btn">立即购买</View>
+        <View 
+          onClick={this.handlePurchaseClick} 
+          className="flex-fill bg-error  goods-action-text-btn">立即购买</View>
       </View>
     )
   }

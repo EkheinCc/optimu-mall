@@ -1,18 +1,21 @@
 import './index.scss'
-import { isAppleX } from '@/utils'
 import classNames from 'classnames'
-import { goods as db } from '@/api/db'
+import { connect } from '@tarojs/redux'
 import TabBar from '../components/TabBar'
 import Stepper from '@/components/Stepper'
 import LoadMore from '@/components/LoadMore'
+import { isAppleX, formatUrl } from '@/utils'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, Text, Block } from '@tarojs/components'
 import { AtButton, AtTag, AtSearchBar } from 'taro-ui'
 
+@connect(({ Cart }) => Cart)
 class Home extends Component {
   static config: Config = {
     navigationBarTitleText: '代客下单'
   }
+
+  public props: any
   public $refs: any = {
     loadMore: null
   }
@@ -24,27 +27,37 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
+  }
+  
+  goodsNumberCalc(goods) {
+    return (
+      this.props.goods.find(item => item.id === goods.id && item.number) || { number: 0 }
+    ).number
+  }
+  stopPropagation(event) {
+    event.stopPropagation()
   }
 
-  total(): number {
-    // 取count的总和
-    return this.state.list
-      .filter((item: any) => item._count)
-      .map((item: any) => item._count)
-      .reduce((prev, next) => (prev + next), 0)
-  }
   handleTabBarClick(index: number) {
-    const { list } = this.state
-    // 保存购物车信息
-    db.setGoods(list.filter((item: any) => item._count))
     switch (index) {
       case 1:
-        Taro.navigateTo({ url: '/pages/instead/cart/index' })
+        const url = formatUrl('/pages/instead/cart/index')
+        Taro.navigateTo({ url })
         break
       case 2:
         Taro.navigateBack()
         break
     }
+  }
+  handleGoodsCardClick() {
+    const url = formatUrl('/pages/instead/details/index')
+    Taro.navigateTo({ url })
+  }
+  handleGoodsBuyerClick(event: any) {
+    event.stopPropagation()
+    const url = formatUrl('/pages/instead/details/index')
+    Taro.navigateTo({ url })
   }
   handlePullUp(resp: any) {
     this.setState(function (prev: any) {
@@ -56,41 +69,20 @@ class Home extends Component {
   handleFetchData(params: any) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const goods = db.getGoods()
         resolve({
           total: 100,
           rows: Array.from({ length: params.size }, (item: any, index: number, ) => { 
-            const id = params.page * params.size + index
-            const { _count = 0 } = goods.find((item: any) => item.id === id) || new Object()
-            return {
-              id, _count
-            }
+            return { id: index }
           })
         })
       }, 1500)
     })
   }
   handleIncreaseGoods(goods: any) {
-    this.setState(function (prev: any) {
-      return {
-        list: prev.list.map((item: any) => {
-          return item.id === goods.id
-            ? { ...item, _count: (item._count || 0) + 1 }
-            : { ...item }
-        })
-      }
-    })
+    this.props.dispatch({ type: 'Cart/addGoodsItem', goods })
   }
   handleSubtractGoods(goods: any) {
-    this.setState(function (prev:any) {
-      return {
-        list: prev.list.map((item: any) => {
-          return item.id === goods.id
-            ? { ...item, _count: item._count - 1 }
-            : { ...item }
-        })
-      }
-    })
+    this.props.dispatch({ type: 'Cart/subGoodsItem', goods })
   }
   handleSearchAction() {
     console.log('搜索')
@@ -105,12 +97,13 @@ class Home extends Component {
       }
     })
   }
+
   renderGoodsList() {
     const { list } = this.state
     return (
       <Block>
         {list.map((item: any) => 
-          <View key={item.id} className="bg-white goods-card">
+          <View onClick={this.handleGoodsCardClick} key={item.id} className="bg-white goods-card">
             <View className="text-center goods-from">本商品由裕兴商行专供</View>
             <View className="goods-image">
               <Image className="imgs" src="https://img2.woyaogexing.com/2019/06/09/b505d2b030ce4c6db51c0317950382d1!400x400.jpeg"/>
@@ -147,20 +140,24 @@ class Home extends Component {
             <View className="flex flex-v-center goods-price">
               <View className="font-bold color-error price">7.5</View>
               <View className="flex-fill color-grey-2 font-delete old-price">12</View>
-              {item._count
-                ? <Stepper
-                    size={50}
-                    number={item._count}
-                    onSubtract={this.handleSubtractGoods.bind(this, item)}
-                    onIncrease={this.handleIncreaseGoods.bind(this, item)}/>
-                : <AtButton
-                    circle
-                    type="primary"
-                    onClick={this.handleIncreaseGoods.bind(this, item)}
-                    className="font-base goods-add">加入购物车</AtButton>
-              }
+              <View onClick={this.stopPropagation}>
+                {this.goodsNumberCalc(item)
+                  ? <Stepper
+                      size={50}
+                      number={this.goodsNumberCalc(item)}
+                      onSubtract={this.handleSubtractGoods.bind(this, item)}
+                      onIncrease={this.handleIncreaseGoods.bind(this, item)}/>
+                  : <AtButton
+                      circle
+                      type="primary"
+                      className="font-base goods-add"
+                      onClick={this.handleIncreaseGoods.bind(this, item)}>
+                      加入购物车
+                    </AtButton>
+                }
+              </View>
             </View>
-            <View className="flex flex-v-center border-top-1px goods-buyer">
+            <View onClick={this.handleGoodsBuyerClick} className="flex flex-v-center border-top-1px goods-buyer">
               <Image src="https://img2.woyaogexing.com/2019/05/27/67a31b8974504cdcaed89999ec80a7be!400x400.jpeg"/>
               <Image src="https://img2.woyaogexing.com/2019/05/27/67a31b8974504cdcaed89999ec80a7be!400x400.jpeg"/>
               <Image src="https://img2.woyaogexing.com/2019/05/27/67a31b8974504cdcaed89999ec80a7be!400x400.jpeg"/>
@@ -176,7 +173,7 @@ class Home extends Component {
     )
   }
   render() {
-    const { form } = this.state
+    const { form  } = this.state
     return (
       <View className="wrapper">
         <AtSearchBar
@@ -195,8 +192,7 @@ class Home extends Component {
         </View>
         <TabBar
           active={0}
-          total={this.total()}
-          onClick={this.handleTabBarClick.bind(this)} />
+          onClick={this.handleTabBarClick}/>
       </View>
     )
   }

@@ -1,58 +1,52 @@
 import './index.scss'
-import { isAppleX } from '@/utils'
 import classNames from 'classnames'
-import { goods as db } from '@/api/db'
+import { connect } from '@tarojs/redux'
 import TabBar from '../components/TabBar'
 import Stepper from '@/components/Stepper'
+import { isAppleX, formatUrl } from '@/utils'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, Block, Text } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 
+@connect(({ Cart }) => Cart)
 class Cart extends Component {
   static config: Config = {
     navigationBarTitleText: '代客下单'
   }
 
+  public props: any
   public state: any = {
-    check: [],
+    select: [],
     isEdit: false
   }
 
   componentDidMount() {
-    this.handleCheckAllClick(true)
-  }
-  /**
-   * @Author: Tainan
-   * @Description: 计算总数
-   * @Date: 2019-06-12 18:18:37
-   */
-  total(): number {
-    return db.getGoods()
-      .map((item: any) => item._count)
-      .reduce((prev: number, next: number) => (prev + next), 0)
+    this.handleSelectAllClick()
   }
   /**
    * @Author: Tainan
    * @Description: 是否选中
    * @Date: 2019-06-12 18:18:46
    */
-  hasCheck(id: any): boolean {
-    const { check } = this.state
-    return check.findIndex((item: any) => item.id === id) !== -1
+  hasSelect(id: any): boolean {
+    const { select } = this.state
+    return select.findIndex((item: any) => item.id === id) !== -1
   }
   handleEditCart() {
-    this.handleCheckAllClick(false)
     this.setState(function (prev:any) {
-      return { isEdit: !prev.isEdit }
+      return { 
+        select: [],
+        isEdit: !prev.isEdit 
+      }
     })
   }
   handleCardClick(goods: any) {
     this.setState(function (prev: any) {
-      const index = prev.check.findIndex((item: any) => item.id === goods.id)
-      const check = index === -1
-        ? [...prev.check, goods]
-        : [...prev.check].filter((item: any) => item.id !== goods.id)
-      return { check }
+      const index  = prev.select.findIndex((item: any) => item.id === goods.id)
+      const select = index === -1
+        ? [...prev.select, goods]
+        : [...prev.select].filter((item: any) => item.id !== goods.id)
+      return { select }
     })
   }
   /**
@@ -66,31 +60,39 @@ class Cart extends Component {
   handleTabBarClick(index) {
     Taro.navigateBack({ delta: index })
   }
-  handleCompleteCart() {
-    this.handleCheckAllClick(true)
-    this.setState({isEdit: false})
+  handleFinishClick() {
+    const { goods } = this.props
+    this.setState({
+      isEdit: false,
+      select: goods
+    })
+  }
+  handleDeleteClick() {
+    this.state.select.forEach(goods => {
+      this.props.dispatch({ type: 'Cart/delGoodsItem', goods })
+    })
+  }
+  handleSettleClick() {
+    const url = formatUrl('/pages/instead/purchase/index')
+    Taro.navigateTo({ url })
   }
   /**
    * @Author: Tainan
    * @Description: 选择全部
    * @Date: 2019-06-12 18:22:19
    */
-  handleCheckAllClick(select?: boolean) {
-    const goods = db.getGoods()
-    this.setState(function (prev: any) {
-      const check = typeof select === 'boolean'
-        ? select ? goods : []
-        : goods.length === prev.check.length ? [] : goods
-      return { check }
+  handleSelectAllClick() {
+    const { goods  } = this.props
+    const { select } = this.state
+    this.setState({ 
+      select: goods.length === select.length ? [] : goods 
     })
   }
   handleSubtractGoods(goods: any) {
-    db.subtract(goods.id)
-    this.forceUpdate()
+    this.props.dispatch({ type: 'Cart/subGoodsItem', goods })
   }
-  handleIncreaseGoods(goods: any, e) {
-    db.increase(goods.id)
-    this.forceUpdate()
+  handleIncreaseGoods(goods: any) {
+    this.props.dispatch({ type: 'Cart/addGoodsItem', goods })
   }
   renderNoneData() {
     return (
@@ -102,7 +104,7 @@ class Cart extends Component {
     )
   }
   renderCartList() {
-    const goods = db.getGoods()
+    const { goods } = this.props
     return (
       <Block>
         {goods.map((item: any) => 
@@ -110,7 +112,7 @@ class Cart extends Component {
             onClick={this.handleCardClick.bind(this, item)}
             className="bg-white flex flex-v-center goods-card">
             <View className={classNames('iconfont', 'font-xxl', 'icon', 'icon-check', [
-              this.hasCheck(item.id) ? 'color-info' : 'color-grey-3'
+              this.hasSelect(item.id) ? 'color-info' : 'color-grey-3'
             ])}/>
             <View className="flex-fill flex">
               <View className="goods-image">
@@ -125,7 +127,7 @@ class Cart extends Component {
                   <Stepper
                     min={1}
                     size={50}
-                    number={item._count}
+                    number={item.number}
                     onSubtract={this.handleSubtractGoods.bind(this, item)}
                     onIncrease={this.handleIncreaseGoods.bind(this, item)}/>
                 </View>
@@ -137,14 +139,13 @@ class Cart extends Component {
     )
   }
   renderGoodsAction() {
-    const { check, isEdit } = this.state
-    const { length } = db.getGoods()
+    const { goods } = this.props
+    const { select, isEdit } = this.state
     return (
-      <View className="bg-white border-top-1px flex flex-v-center goods-action">
-        <View onClick={this.handleCheckAllClick.bind(this)} className="flex flex-v-center select">
+      <View className={classNames('bg-white', 'border-top-1px', 'flex', 'flex-v-center', 'goods-action', {'is-apple-x': isAppleX()})}>
+        <View onClick={this.handleSelectAllClick.bind(this)} className="flex flex-v-center select">
           <View className={classNames('iconfont', 'font-xxl', 'icon-check', 'icon',
-            [check.length === length ? 'color-info' : 'color-grey-3'])}
-          />
+            [select.length === goods.length ? 'color-info' : 'color-grey-3'])}/>
           <View className="color-info">全选</View>
         </View>
         <View className="flex-fill flex flex-v-center text-right total">
@@ -155,25 +156,29 @@ class Cart extends Component {
           </Text>
         </View>
         {isEdit
-          ? <View className="color-white text-center delete">删除（{check.length}）</View>
-          : <View className="color-white text-center settlement">结算（{check.length}）</View>}
+          ? <View onClick={this.handleDeleteClick.bind(this)} className="color-white text-center delete">删除（{select.length}）</View>
+          : <View onClick={this.handleSettleClick.bind(this)} className="color-white text-center settlement">结算（{select.length}）</View>}
       </View>
     )
   }
   render() {
     const { isEdit  } = this.state
-    const { length } = db.getGoods()
+    const { goods } = this.props
     return (
-      <View className="wrapper">
+      <View className={classNames('wrapper', {'is-apple-x': isAppleX()})}>
         <View className="bg-white border-bottom-1px text-right nav-bar">
           {isEdit
-            ? <Text className="color-info" onClick={this.handleCompleteCart.bind(this)}>完成</Text>
+            ? <Text className="color-info" onClick={this.handleFinishClick.bind(this)}>完成</Text>
             : <Text className="color-info" onClick={this.handleEditCart.bind(this)}>编辑</Text>}
         </View>
-        {!length && this.renderNoneData()}
-        {length  && this.renderCartList()}
-        {length  && this.renderGoodsAction()}
-        <TabBar active={1} total={this.total()} onClick={this.handleTabBarClick}/>
+        {goods.length 
+          ? <Block>
+              {this.renderCartList()}
+              {this.renderGoodsAction()}
+            </Block>
+          : this.renderNoneData()
+        }
+        <TabBar active={1} onClick={this.handleTabBarClick}/>
       </View>
     )
   }

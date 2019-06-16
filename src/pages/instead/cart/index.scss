@@ -1,4 +1,8 @@
 .wrapper {
+  padding-bottom: 230px;
+  &.is-apple-x {
+    padding-bottom: calc(34PX + 230px);
+  }
   .none {
     top: 0;
     left: 0;
@@ -64,7 +68,10 @@
     left: 0;
     right: 0;
     bottom: 124px;
-    position: absolute;
+    position: fixed;
+    &.is-apple-x {
+      padding-bottom: 34PX;
+    }
     .select {
       padding: 0 $spacing-h-lg;
       .icon {

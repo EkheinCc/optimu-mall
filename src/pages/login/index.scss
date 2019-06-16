@@ -1,0 +1,45 @@
+.wrapper {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background-color: $color-white;
+  .logo {
+    width: 250px;
+    height: 250px;
+    display: block;
+    margin: 80px auto;
+    box-shadow: $box-shadow;
+    border-radius: $border-radius-circle;
+  }
+  .login {
+    margin: 120px 50px 0;
+  }
+  .account,
+  .password {
+    margin: $spacing-v-md $spacing-h-lg;
+    input,
+    label {
+      line-height: 1.428;
+      font-size: $font-size-base;
+    }
+    label {
+      width: 4em;
+      color: $color-info;
+      &::before {
+        font-family: 'iconfont';
+        margin-right: $spacing-h-sm;
+      }
+    }
+  }
+  .account  label::before {
+    content: '\e65c';
+  }
+  .password label::before {
+    content: '\e612';
+  }
+  .user-info-btn {
+    margin: 250px $spacing-h-lg;
+  }
+}

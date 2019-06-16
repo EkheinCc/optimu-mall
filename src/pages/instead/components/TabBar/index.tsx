@@ -1,6 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { AtTabBar } from 'taro-ui'
+import { connect } from '@tarojs/redux'
 
+@connect(({ Cart }) => Cart)
 class TabBar extends Component {
   static options: any = {
     addGlobalClass: true
@@ -14,7 +16,7 @@ class TabBar extends Component {
       max: 999,
       title: '购物车',
       iconType: ' iconfont icon-cart',
-      text: this.props.total || ''
+      text: this.goodsTotalsCalc() || ''
     }, {
       title: '我的',
       iconType: ' iconfont icon-mine'
@@ -23,6 +25,11 @@ class TabBar extends Component {
   handleTabBarClick(index) {
     if (index === this.props.active) return
     this.props.onClick(index)
+  }
+  goodsTotalsCalc() {
+    return this.props.goods
+      .map(({ number }) => number)
+      .reduce((prev, next) => (prev + next), 0)
   }
   render() {
     return (
