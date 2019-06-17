@@ -1,5 +1,6 @@
 import './index.scss'
 import $base from '@/api/base'
+import { ERR_OK } from '@/config/http'
 import { formatUrl } from '@/utils'
 import avatar from '@/assets/avatar.png'
 import { uploadFile } from '@/api/upload'
@@ -37,16 +38,7 @@ class Index extends Component {
     })
     this.getLocation()
     this.refreshChart()
-    // setTimeout(() => {
-    //   this.refreshChart(10, 100)
-    // }, 3000);
   }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide() { }
   /**
    * @Author: Tainan
    * @Description: 查看排名点击处理
@@ -164,11 +156,34 @@ class Index extends Component {
   }
   /**
    * @Author: Tainan
+   * @Description: 修改签名 在失去焦点的时候
+   * @Date: 2019-06-17 15:16:37
+   */
+  handleAutographBlur() {
+    const { form } = this.state
+    console.log(form)
+    $base.profile({ bio: form.autograph })
+      .then((resp: any) => {
+        const { code } = resp
+        if (code === ERR_OK) {
+          Taro.atMessage({type: 'info', message: '签名修改成功~'})
+        }
+      })
+  }
+  /**
+   * @Author: Tainan
    * @Description: 签名input Change
    * @Date: 2019-06-03 13:46:29
    */
-  handleAutographChange(e) {
-    console.log(e)
+  handleAutographChange(value: string) {
+    this.setState(function (prev: any) {
+      return {
+        form: {
+          ...prev.form,
+          autograph: value
+        }
+      }
+    })
   }
   /**
    * @Author: Tainan
@@ -200,7 +215,7 @@ class Index extends Component {
       count: 1
     }).then((resp: any) => {
       const [ filePath ] = resp.tempFilePaths
-      return uploadFile({ filePath, name: 'test' })
+      return uploadFile({ filePath, name: 'avatar' })
     }).then((resp: any) => {
       console.log(resp)
     }).catch((error: any) => {
@@ -231,7 +246,7 @@ class Index extends Component {
    * @Date: 2019-06-03 10:08:34
    */
   renderUserInfo() {
-    const state: any = this.state
+    const { form } = this.state
     return (
       <View className="bg-white flex flex-v-center user-info border-bottom-1px">
         <View className="text-center avatar" onClick={this.handleAvatarChange.bind(this)}>
@@ -243,10 +258,10 @@ class Index extends Component {
           <AtInput
             border={false}
             name="autograph"
-            // editable={true} 是否可编辑
             className="autograph"
-            value={state.form.autograph}
+            value={form.autograph}
             placeholder="快来设置属于你自己的个性签名吧~"
+            onBlur={this.handleAutographBlur.bind(this)}
             onChange={this.handleAutographChange.bind(this)}>
             <Text className="iconfont icon-sign color-black-0"/>
           </AtInput>

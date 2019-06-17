@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import $user from '@/api/user'
 import { BASE_URL } from '@/config/http'
 
 /**
@@ -7,9 +8,13 @@ import { BASE_URL } from '@/config/http'
  * @Date: 2019-06-03 17:51:25
  */
 export function uploadFile(args: Taro.uploadFile.Param) {
+  const user = $user.getUserInfo()
   const params: Taro.uploadFile.Param = {
     ...args,
-    url: BASE_URL + '/upload'
+    header: {
+      token: user.token
+    },
+    url: BASE_URL + '/api/user/profile'
   }
   return Taro.uploadFile(params)
 }
