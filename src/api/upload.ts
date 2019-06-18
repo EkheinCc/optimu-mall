@@ -11,10 +11,11 @@ export function uploadFile(args: Taro.uploadFile.Param) {
   const user = $user.getUserInfo()
   const params: Taro.uploadFile.Param = {
     ...args,
+    name: 'file',
     header: {
       token: user.token
     },
-    url: BASE_URL + '/api/user/profile'
+    url: BASE_URL + '/api/user/uploadPic'
   }
   return Taro.uploadFile(params)
 }

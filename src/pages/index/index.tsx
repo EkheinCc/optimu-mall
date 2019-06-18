@@ -1,10 +1,10 @@
 import './index.scss'
 import $base from '@/api/base'
-import { ERR_OK } from '@/config/http'
-import { formatUrl } from '@/utils'
+import { formatUrl, price } from '@/utils'
 import avatar from '@/assets/avatar.png'
 import { uploadFile } from '@/api/upload'
 import * as echarts from '@/ec-canvas/echarts'
+import { BASE_URL, ERR_OK } from '@/config/http'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { AtButton, AtBadge, AtMessage, AtInput } from 'taro-ui'
@@ -27,17 +27,42 @@ class Index extends Component {
     pieChart: null
   }
   public state: any = {
-    address: '',
+    index: {
+      bio: '',
+      pick: '',
+      radio: '',
+      avatar: '',
+      rank: '',
+      count: '',
+      countAll: '',
+      incomeToday: '',
+      income: ''
+    },
     form: {
-      autograph: ''
+      bio: ''
     }
   }
+
   componentDidMount() {
-    $base.index().then(resp => {
-      console.log(resp)
+    this.initialize()
+  }
+  /**
+   * @Author: Tainan
+   * @Description: 初始化数据
+   * @Date: 2019-06-18 10:23:12
+   */
+  initialize() {
+    $base.index()
+    .then((resp: any) => {
+      const { data } = resp
+      this.setState(function (prev:any) {
+        return {
+          index: Object.assign({}, prev.index, data),
+          form: Object.assign({}, prev.form, { bio: data.bio })
+        }
+      })
+      this.refreshChart(data.count, data.countAll)
     })
-    this.getLocation()
-    this.refreshChart()
   }
   /**
    * @Author: Tainan
@@ -101,16 +126,6 @@ class Index extends Component {
   }
   /**
    * @Author: Tainan
-   * @Description: 获取用户地理位置 & 反向解析地址
-   * @Date: 2019-06-03 15:57:25
-   */
-  getLocation() {
-    this.setState({
-      address: '福建省福州市仓山区闽江大道236号'
-    })
-  }
-  /**
-   * @Author: Tainan
    * @Description: 扫码处理
    * @Date: 2019-06-03 14:44:50
    */
@@ -159,15 +174,22 @@ class Index extends Component {
    * @Description: 修改签名 在失去焦点的时候
    * @Date: 2019-06-17 15:16:37
    */
-  handleAutographBlur() {
-    const { form } = this.state
-    console.log(form)
-    $base.profile({ bio: form.autograph })
+  handleBioBlur() {
+    const { form, index } = this.state
+    if (form.bio === index.bio) return
+    if (!form.bio) {
+      this.setState(function (prev: any) {
+        return {
+          form: Object.assign({}, prev.form, { bio: prev.index.bio })
+        }
+      })
+      return
+    }
+    $base.profile(form)
       .then((resp: any) => {
         const { code } = resp
-        if (code === ERR_OK) {
+        if (code === ERR_OK)
           Taro.atMessage({type: 'info', message: '签名修改成功~'})
-        }
       })
   }
   /**
@@ -175,12 +197,12 @@ class Index extends Component {
    * @Description: 签名input Change
    * @Date: 2019-06-03 13:46:29
    */
-  handleAutographChange(value: string) {
+  handleBioChange(value: string) {
     this.setState(function (prev: any) {
       return {
         form: {
           ...prev.form,
-          autograph: value
+          bio: value
         }
       }
     })
@@ -193,7 +215,7 @@ class Index extends Component {
   handleLocationClick() {
     Taro.chooseLocation().then((resp: any) => {
       const { name } = resp
-      this.setState({ address: name })
+      // this.setState({ address: name })
     })
   }
   /**
@@ -211,18 +233,24 @@ class Index extends Component {
    * @Date: 2019-06-03 16:24:07
    */
   handleAvatarChange() {
-    Taro.chooseImage({
-      count: 1
-    }).then((resp: any) => {
-      const [ filePath ] = resp.tempFilePaths
-      return uploadFile({ filePath, name: 'avatar' })
-    }).then((resp: any) => {
-      console.log(resp)
-    }).catch((error: any) => {
-      const { errMsg } = error
-      if (errMsg && errMsg.split(' ')[1] === 'cancel') return
-      Taro.atMessage({ type: 'error', message: '头像上传失败~' })
-    })
+    Taro.chooseImage({ count: 1 })
+      .then((resp: any) => {
+        const [filePath] = resp.tempFilePaths
+        Taro.showLoading({ title: '头像上传中...', mask: true })
+        return uploadFile({
+          filePath,
+          formData: {
+            type: 1
+          }
+        })
+      })
+      .then((resp: any) => {
+        Taro.hideLoading()
+        const { code } = JSON.parse(resp.data)
+        if (code === ERR_OK) {
+          Taro.atMessage({ type: 'info', message: '头像修改成功~' })
+        }
+      })
   }
   /**
    * @Author: Tainan
@@ -230,13 +258,12 @@ class Index extends Component {
    * @Date: 2019-06-03 10:08:49
    */
   renderUserLocation() {
-    const self: any = this
-    const { address } = self.state
+    const { index } = this.state
     return (
       <View className="font-sm user-location" onClick={this.handleLocationClick.bind(this)}>
         <Text className="iconfont icon-location"/>
         <Text className="color-grey-1">门店位置：</Text>
-        <Text className="color-info">{address}</Text>
+        <Text className="color-info">{index.pick}</Text>
       </View>
     )
   }
@@ -246,11 +273,11 @@ class Index extends Component {
    * @Date: 2019-06-03 10:08:34
    */
   renderUserInfo() {
-    const { form } = this.state
+    const { index, form } = this.state
     return (
       <View className="bg-white flex flex-v-center user-info border-bottom-1px">
         <View className="text-center avatar" onClick={this.handleAvatarChange.bind(this)}>
-          <Image src={avatar} />
+          <Image src={BASE_URL + index.avatar} />
           <View className="font-xs color-placeholder">点击修改头像</View>
         </View>
         <View className="flex-fill">
@@ -258,11 +285,11 @@ class Index extends Component {
           <AtInput
             border={false}
             name="autograph"
-            className="autograph"
-            value={form.autograph}
+            value={form.bio}
+            className="color-grey-2 autograph"
             placeholder="快来设置属于你自己的个性签名吧~"
-            onBlur={this.handleAutographBlur.bind(this)}
-            onChange={this.handleAutographChange.bind(this)}>
+            onBlur={this.handleBioBlur.bind(this)}
+            onChange={this.handleBioChange.bind(this)}>
             <Text className="iconfont icon-sign color-black-0"/>
           </AtInput>
         </View>
@@ -275,6 +302,7 @@ class Index extends Component {
    * @Date: 2019-06-03 10:09:25
    */
   renderOrderInfo() {
+    const { index } = this.state
     return (
       <View className="bg-white border-bottom-base order-info">
         <View className="flex flex-v-center">
@@ -283,22 +311,22 @@ class Index extends Component {
         </View>
         <View className="font-sm">
           <Text>您的订单占比: </Text>
-          <Text className="color-error">0.03%</Text>
+          <Text className="color-error">{index.radio}%</Text>
         </View>
         <View className="font-sm">
           <Text>您的订单排名: </Text>
-          <Text className="color-error">第498名</Text>
+          <Text className="color-error">第{index.rank}名</Text>
         </View>
         <View className="pie-chart">
           <ec-canvas ref={node => this.$refs.pieChart = node} ec={{lazyLoad: true}}/>
         </View>
         <View className="font-sm flex flex-h-between">
           <Text>今日收益（元）</Text>
-          <Text className="color-error">5.40</Text>
+          <Text className="color-error">{price(index.incomeToday)}</Text>
         </View>
         <View className="font-sm flex flex-h-between">
           <Text>累计收益（元）</Text>
-          <Text className="color-error">220.00</Text>            
+          <Text className="color-error">{price(index.income)}</Text>
         </View>
       </View>
     )
@@ -347,10 +375,15 @@ class Index extends Component {
           iconClass: ['iconfont', 'color-warning', 'icon-share']
         },
         {
-          id: 2,
-          label: '代客下单',
-          iconClass: ['iconfont', 'color-success', 'icon-down-order']
+          id: 13,
+          label: '门店录入',
+          iconClass: ['iconfont', 'color-brand-light', 'icon-typing']
         },
+        // {
+        //   id: 2,
+        //   label: '代客下单',
+        //   iconClass: ['iconfont', 'color-success', 'icon-down-order']
+        // },
         {
           id: 3,
           label: '退货 / 售后',
@@ -407,13 +440,6 @@ class Index extends Component {
           id: 12,
           label: '修改密码',
           iconClass: ['iconfont', 'color-warning', 'icon-change-pass']
-        }
-      ],
-      [
-        {
-          id: 13,
-          label: '门店录入',
-          iconClass: ['iconfont', 'color-brand-light', 'icon-typing']
         }
       ]
     ]

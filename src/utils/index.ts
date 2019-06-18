@@ -1,5 +1,6 @@
 import Qs from 'qs'
 import Taro from '@tarojs/taro'
+import Decimal from 'decimal.js'
 
 /**
  * @Author: Tainan
@@ -40,6 +41,21 @@ export function validate(rules: any, values: any): any {
   return Promise.resolve(result.length ? result : null)
 }
 
+/**
+ * @Author: Tainan
+ * @Description: url格式化 params可携带参数
+ * @Date: 2019-06-18 10:26:12
+ */
 export function formatUrl(path: string, params?: object): string {
   return path + '?' + Qs.stringify(params)
+}
+
+/**
+ * @Author: Tainan
+ * @Description: 金额格式化
+ * @Date: 2019-06-18 10:31:02
+ */
+export function price(value: number|string): string {
+  const price = new Decimal(value || 0)
+  return price.toFixed(2)
 }
