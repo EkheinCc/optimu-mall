@@ -54,7 +54,9 @@ class Order extends Component {
    * @Date: 2019-06-06 13:22:32
    */
   handleTabsClick(index) {
-    this.setState({active: index})
+    this.setState({
+      active: index
+    })
   }
   /**
    * @Author: Tainan
