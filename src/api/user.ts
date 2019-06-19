@@ -8,5 +8,8 @@ export default {
   },
   setUserInfo(userInfo) {
     return Taro.setStorageSync(key, userInfo)
+  },
+  resetUserInfo() {
+    return this.setUserInfo(null)
   }
 }

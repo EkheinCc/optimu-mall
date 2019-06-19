@@ -1,8 +1,9 @@
 import './index.scss'
 import $base from '@/api/base'
+import $user from '@/api/user'
+import $upload from '@/api/upload'
 import { formatUrl, price } from '@/utils'
 import avatar from '@/assets/avatar.png'
-import { uploadFile } from '@/api/upload'
 import * as echarts from '@/ec-canvas/echarts'
 import { BASE_URL, ERR_OK } from '@/config/http'
 import Taro, { Component, Config } from '@tarojs/taro'
@@ -237,7 +238,7 @@ class Index extends Component {
       .then((resp: any) => {
         const [filePath] = resp.tempFilePaths
         Taro.showLoading({ title: '头像上传中...', mask: true })
-        return uploadFile({
+        return $upload({
           filePath,
           formData: {
             type: 1
@@ -251,6 +252,16 @@ class Index extends Component {
           Taro.atMessage({ type: 'info', message: '头像修改成功~' })
         }
       })
+  }
+  /**
+   * @Author: Tainan
+   * @Description: 处理用户退出
+   * @Date: 2019-06-19 16:17:36
+   */
+  handleLoginOutClick() {
+    $user.resetUserInfo()
+    const url = formatUrl('/pages/login/index')
+    Taro.reLaunch({url})
   }
   /**
    * @Author: Tainan
@@ -476,7 +487,7 @@ class Index extends Component {
           <Image src={avatar}/>
           <View>门店分享码</View>
         </View>
-        <AtButton type="primary" className="logout">退出</AtButton>
+        <AtButton onClick={this.handleLoginOutClick} type="primary" className="logout">退出</AtButton>
      </View>
     )
   }

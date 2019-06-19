@@ -1,4 +1,5 @@
 import './index.scss'
+import $order from '@/api/order'
 import Cards from './components/Cards'
 import LoadMore from '@/components/LoadMore'
 import classNames from 'classnames'
@@ -27,10 +28,6 @@ class Order extends Component {
       title: '待客下单'
     }],
     data: []
-  }
-
-  constructor(props: any) {
-    super(props)
   }
 
   componentDidMount() {
@@ -125,9 +122,6 @@ class Order extends Component {
         type: 'warning',
         message: valid.shift().message
       })
-      // return valid
-      //   ? Promise.reject()
-      //   : fetchData()
     })
   }
   /**
@@ -135,27 +129,34 @@ class Order extends Component {
    * @Description: 请求卡片数据
    * @Date: 2019-06-06 17:09:45
    */
-  handleFetchData() {
+  handleFetchData(active: number, params: any) {
+    const { type } = this.$router.params
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({
           total: 100,
-          rows: Array.from({ length: 10 }, () => {
-            return {
-              id: Math.random(),
-              status: Math.floor(Math.random() * 2 + 1)
-            }
-          })
+          rows: Array.from({length: params.size}, () => ({id: Math.random()}))
         })
-      }, 1500)
+      }, 1500);
     })
+    // return ({
+    //   // 今日
+    //   1: () => $order.today(),
+    //   // 本月
+    //   2: () => $order.month(),
+    //   // 待提货
+    //   3: () => $order.wait(),
+    //   // 提醒取货
+    //   4: () => $order.wait()
+    // })[type]()
   }
   /**
    * @Author: Tainan
    * @Description: 处理上拉加载
    * @Date: 2019-06-06 17:11:01
    */
-  handlePullUp(resp: any) {
+  handlePullUp(active: number, resp: any) {
+    console.log(active, this.state.active)
     this.setState(function (prev: any) {
       const { rows } = resp
       return {
@@ -213,7 +214,7 @@ class Order extends Component {
   }
   render() {
     const { type } = this.$router.params
-    const { form, data, check } = this.state
+    const { form, data, check, active } = this.state
     return (
       <View className="wrapper">
         <AtMessage />
@@ -227,13 +228,15 @@ class Order extends Component {
         {/* Tab 或者 提示区域 */}
         {this.renderTabsOrRemarks()}
         {/* 卡片区域 */}
-        <View className={classNames('scroll-view', {
-          'no-action': type != 4,
-          'is-apple-x': isAppleX()
-        })
-        }>
-          <LoadMore fetch={this.handleFetchData} onPullUp={this.handlePullUp.bind(this)}>
-            <Cards data={data} isCheckBox={ type == 4 } onClick={this.handleCardClick} onCheck={this.handleCardCheck.bind(this)} check={check}/>
+        <View className={classNames('scroll-view', { 'no-action': type != 4, 'is-apple-x': isAppleX() })}>
+          <LoadMore
+            onPullUp={this.handlePullUp.bind(this, active)}
+            fetch={this.handleFetchData.bind(this, active)}>
+            <Cards
+              data={data}
+              isCheckBox={type == 4}
+              onClick={this.handleCardClick}
+              onCheck={this.handleCardCheck.bind(this)} check={check}/>
           </LoadMore>
         </View>
         {/* 底部按钮区域 */}

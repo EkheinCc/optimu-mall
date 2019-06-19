@@ -66,10 +66,7 @@ class Popular extends Component {
           </AtTabsPane>
         </AtTabs>
         {/* 底部TabBar */}
-        <View className={
-          classNames('flex', 'fixed-tabs', 'bg-white', 'font-lg', 'text-center', 'border-top-1px',
-          {'is-apple-x': isAppleX() })
-        }>
+        <View className={classNames('flex', 'fixed-tabs', 'bg-white', 'font-lg', 'text-center', 'border-top-1px', {'is-apple-x': isAppleX() })}>
           {tabBars.map((tabBar: any, index: number) => 
             <View
               key={index}  onClick={this.handlerTabBarClick.bind(this, index)}

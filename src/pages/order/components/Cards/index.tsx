@@ -25,9 +25,6 @@ class Card extends Component {
   public state: any = {
     check: []
   }
-  constructor(props: any) {
-    super(props)
-  }
   /**
    * @Author: Tainan
    * @Description: 处理 CheckBox 点击
