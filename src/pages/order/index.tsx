@@ -13,7 +13,9 @@ class Order extends Component {
   static config: Config = {
     navigationBarTitleText: ''
   }
-
+  public $refs: any = {
+    loadMore: null
+  }
   public state: any = {
     active: 0,
     form: {
@@ -27,9 +29,17 @@ class Order extends Component {
     }, {
       title: '待客下单'
     }],
-    data: []
+    list: [{
+      type: 'all',
+      data: []
+    }, {
+      type: 'consumer',
+      data: []
+    }, {
+      type: 'await',
+      data: []
+    }]
   }
-
   componentDidMount() {
     this.setNavigationBarTitle()
   }
@@ -54,8 +64,14 @@ class Order extends Component {
    * @Date: 2019-06-06 13:22:32
    */
   handleTabsClick(index) {
-    this.setState({
-      active: index
+    const { active } = this.state
+    if (index === active) return
+    this.setState(function (prev: any) {
+      return {
+        list: prev.list.map((item: any) => ({ ...item, data: [] }))
+      }
+    }, () => {
+      this.$refs.loadMore.refresh(true)
     })
   }
   /**
@@ -133,24 +149,16 @@ class Order extends Component {
    */
   handleFetchData(active: number, params: any) {
     const { type } = this.$router.params
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          total: 100,
-          rows: Array.from({length: params.size}, () => ({id: Math.random()}))
-        })
-      }, 1500);
-    })
-    // return ({
-    //   // 今日
-    //   1: () => $order.today(),
-    //   // 本月
-    //   2: () => $order.month(),
-    //   // 待提货
-    //   3: () => $order.wait(),
-    //   // 提醒取货
-    //   4: () => $order.wait()
-    // })[type]()
+    return ({
+      // 今日
+      1: () => $order.today(params),
+      // 本月
+      2: () => $order.month(params),
+      // 待提货
+      3: () => $order.wait(params),
+      // 提醒取货
+      4: () => $order.wait(params)
+    })[type]()
   }
   /**
    * @Author: Tainan
@@ -158,12 +166,12 @@ class Order extends Component {
    * @Date: 2019-06-06 17:11:01
    */
   handlePullUp(active: number, resp: any) {
-    console.log(active, this.state.active)
+    if (active != this.state.active) return
     this.setState(function (prev: any) {
-      const { rows } = resp
-      return {
-        data: [...prev.data, ...rows]
-      }
+      // const { rows } = resp
+      // return {
+      //   data: [...prev.data, ...rows]
+      // }
     })
   }
   /**
@@ -199,15 +207,9 @@ class Order extends Component {
   renderFooterAction() {
     const { data, check } = this.state
     return (
-      <View className={classNames(
-        'flex', 'flex-v-center', 'flex-h-between', 'bg-white',
-        'border-top-1px', 'footer-action', {'is-apple-x': isAppleX()}
-        )}>
+      <View className={classNames('flex', 'flex-v-center', 'flex-h-between', 'bg-white','border-top-1px', 'footer-action', {'is-apple-x': isAppleX()})}>
         <View onClick={this.checkBoxAll.bind(this)} className="color-info">
-          <Text className={classNames(
-            'iconfont', 'check-box', 'font-xl',
-            [data.length && data.length === check.length ? 'icon-check-box-on' : 'icon-check-box-off']
-          )}/>
+          <Text className={classNames('iconfont', 'check-box', 'font-xl',[data.length && data.length === check.length ? 'icon-check-box-on' : 'icon-check-box-off'])}/>
           <Text>提醒今日取货订单</Text>
         </View>
         <AtButton className="font-sm" type="primary" size="small" onClick={this.handleRemind.bind(this)}>提醒取货</AtButton>
@@ -216,7 +218,7 @@ class Order extends Component {
   }
   render() {
     const { type } = this.$router.params
-    const { form, data, check, active } = this.state
+    const { form, list, check, active } = this.state
     return (
       <View className="wrapper">
         <AtMessage />
@@ -232,11 +234,12 @@ class Order extends Component {
         {/* 卡片区域 */}
         <View className={classNames('scroll-view', { 'no-action': type != 4, 'is-apple-x': isAppleX() })}>
           <LoadMore
+            ref={(node: any) => this.$refs.loadMore = node}
             onPullUp={this.handlePullUp.bind(this, active)}
             fetch={this.handleFetchData.bind(this, active)}>
             <Cards
-              data={data}
               isCheckBox={type == 4}
+              data={list[active]['data']}
               onClick={this.handleCardClick}
               onCheck={this.handleCardCheck.bind(this)} check={check}/>
           </LoadMore>
