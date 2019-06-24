@@ -41,6 +41,10 @@
         line-height: 1;
         font-size: 150px;
         margin-bottom: $spacing-v-xl;
+        &.icon-complete {
+          font-size: 100px;
+          line-height: 150px;
+        }
       }
       .image-picker {
         top: 0;
@@ -90,10 +94,10 @@
       width: 300px;
     }
     .btn:nth-child(1) {
-      margin-right: $spacing-h-sm;
+      margin-right: $spacing-h-md;
     }
     .btn:nth-child(2) {
-      margin-left: $spacing-h-sm;
+      margin-left: $spacing-h-md;
     }
     &.is-apple-x {
       border-bottom: 34PX solid $color-white;

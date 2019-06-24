@@ -22,7 +22,7 @@ http.interceptors.response.use(response => {
   Taro.hideLoading()
   const { data } = response
   if (data.code !== ERR_OK) {
-    Taro.atMessage({ message: data.msg, type: 'error' })
+    Taro.showToast({ title: data.msg, duration: 2000, icon: 'none' })
   }
   return data
 }, error => {

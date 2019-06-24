@@ -14,10 +14,18 @@
   }
   .images {
     padding: $spacing-v-xl $spacing-h-lg;
+    &::after {
+      clear: both;
+      content: '';
+      display: table;
+    }
     view, image {
+      float: right;
       width: 86.5px;
+      line-height: 86.5px;
     }
     image {
+      float: left;
       height: 86.5px;
     }
     view  + view,

@@ -186,7 +186,7 @@ class Step2 extends Component {
           {files.pic.length
             ? <View className="image-picker-box-content text-center preview">
                 <View onClick={this.handleDeleteClick.bind(this, 'pic')} className="iconfont font-xxl remove icon-remove color-error"/>
-                <View className="color-success iconfont image-picker-icon icon-complete" />
+                <View className="color-brand-dark iconfont image-picker-icon icon-complete" />
                 <View className="color-white">门头照</View>
                 <Image mode="aspectFit" src={files.pic[0]['url']}/>
               </View>
@@ -228,7 +228,7 @@ class Step2 extends Component {
           {files.license.length
             ? <View className="image-picker-box-content text-center preview">
                 <View onClick={this.handleDeleteClick.bind(this, 'license')} className="iconfont remove font-xxl icon-remove color-error" />
-                <View className="color-success iconfont image-picker-icon icon-complete" />
+                <View className="color-brand-dark iconfont image-picker-icon icon-complete" />
                 <View className="color-white">营业执照</View>
                 <Image mode="aspectFit" src={files.license[0]['url']} />
               </View>
@@ -254,7 +254,7 @@ class Step2 extends Component {
           {files.permit.length
             ? <View className="image-picker-box-content text-center preview">
                 <View onClick={this.handleDeleteClick.bind(this, 'permit')} className="iconfont remove font-xxl icon-remove color-error" />
-                <View className="color-success iconfont image-picker-icon icon-complete" />
+                <View className="color-brand-dark iconfont image-picker-icon icon-complete" />
                 <View className="color-white">许可证</View>
                 <Image mode="aspectFit" src={files.permit[0]['url']} />
               </View>

@@ -352,7 +352,7 @@ class Index extends Component {
       { type: 1, iconClass: ['iconfont', 'color-grey-1', 'icon-order-today' ], label: '今日订单'   }, 
       { type: 2, iconClass: ['iconfont', 'color-grey-1', 'icon-order-month' ], label: '本月订单'   },
       { type: 3, iconClass: ['iconfont', 'color-grey-1', 'icon-wait-order'  ], label: '待提货订单' },
-      { type: 4, iconClass: ['iconfont', 'color-grey-1', 'icon-remind-order'], label: '提现取货'   }
+      // { type: 4, iconClass: ['iconfont', 'color-grey-1', 'icon-remind-order'], label: '提醒取货'   }
     ]
     return (
       <View className="bg-white order-manage border-bottom-base">
@@ -361,9 +361,9 @@ class Index extends Component {
             <Text className="font-base font-bold color-black-0">订单管理&#x3000;</Text>
           </AtBadge>
         </View>
-        <View className="flex  menus">
+        <View className="flex menus">
           {menus.map((item: any, index: number) => 
-            <View onClick={this.handleOrderManageClick.bind(null, item.type)} key={index} className="flex-fill text-center">
+            <View onClick={this.handleOrderManageClick.bind(null, item.type)} key={index} className="menus-item text-center">
               <View className={['icon', ...item.iconClass].join()}/>
               <View>{item.label}</View>
             </View>
@@ -390,11 +390,6 @@ class Index extends Component {
           label: '门店录入',
           iconClass: ['iconfont', 'color-brand-light', 'icon-typing']
         },
-        // {
-        //   id: 2,
-        //   label: '代客下单',
-        //   iconClass: ['iconfont', 'color-success', 'icon-down-order']
-        // },
         {
           id: 3,
           label: '退货 / 售后',
@@ -421,11 +416,6 @@ class Index extends Component {
       ],
       [
         {
-          id: 7,
-          label: '门店晒单',
-          iconClass: ['iconfont', 'color-warning', 'icon-store']
-        },
-        {
           id: 8,
           label: '图文提取',
           iconClass: ['iconfont', 'color-success', 'icon-pic-text']
@@ -434,14 +424,14 @@ class Index extends Component {
           id: 9,
           label: '快捷报单',
           iconClass: ['iconfont', 'color-brand-light', 'icon-quick']
-        }
-      ],
-      [
+        },
         {
           id: 10,
           label: '查看会员',
           iconClass: ['iconfont', 'color-success', 'icon-member']
-        },
+        }
+      ],
+      [
         {
           id: 11,
           label: '扫一扫',
@@ -454,6 +444,16 @@ class Index extends Component {
         }
       ]
     ]
+    // {
+    //   id: 2,
+    //   label: '代客下单',
+    //   iconClass: ['iconfont', 'color-success', 'icon-down-order']
+    // },
+    // {
+    //   id: 7,
+    //   label: '门店晒单',
+    //   iconClass: ['iconfont', 'color-warning', 'icon-store']
+    // },
     return (
       <View className="bg-white menus-group">
         {menus.map((rows: any, index: number) => 

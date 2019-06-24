@@ -27,5 +27,18 @@ export default {
   wait(params?: object) {
     const url = '/addons/litestore/api.order/getBepicked'
     return $http.post(url, params)
+  },
+  /**
+   * @Author: Tainan
+   * @Description: 查询单条信息
+   * @Date: 2019-06-19 16:32:40
+   */
+  orderById(params: object) {
+    const url = '/addons/litestore/api.order/getOrderCon'
+    return $http.post(url, params)
+  },
+  orderPick(params: object) {
+    const url = '/addons/litestore/api.order/updateOrderStatus'
+    return $http.post(url, params)
   }
 }

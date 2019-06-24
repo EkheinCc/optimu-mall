@@ -1,12 +1,13 @@
 import './index.scss'
 import $order from '@/api/order'
+import classNames from 'classnames'
+import { ERR_OK } from '@/config/http'
 import Cards from './components/Cards'
 import LoadMore from '@/components/LoadMore'
-import classNames from 'classnames'
 import { isAppleX, validate, formatUrl } from '@/utils'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtSearchBar, AtTabs, AtButton, AtMessage } from 'taro-ui'
+import { AtSearchBar, AtButton, AtMessage } from 'taro-ui'
 
 class Order extends Component {
 
@@ -17,28 +18,13 @@ class Order extends Component {
     loadMore: null
   }
   public state: any = {
-    active: 0,
-    form: {
-      value: ''
+    params: {
+      pick_id: '',    // 提货单号
+      mobile: '',     // 手机号       
+      picker: ''      // 收货人
     },
     check: [],
-    tabs: [{
-      title: '全部'
-    }, {
-      title: '消费者订单'
-    }, {
-      title: '待客下单'
-    }],
-    list: [{
-      type: 'all',
-      data: []
-    }, {
-      type: 'consumer',
-      data: []
-    }, {
-      type: 'await',
-      data: []
-    }]
+    datas: []
   }
   componentDidMount() {
     this.setNavigationBarTitle()
@@ -60,27 +46,15 @@ class Order extends Component {
   }
   /**
    * @Author: Tainan
-   * @Description: 顶部Tab切换
-   * @Date: 2019-06-06 13:22:32
-   */
-  handleTabsClick(index) {
-    const { active } = this.state
-    if (index === active) return
-    this.setState(function (prev: any) {
-      return {
-        list: prev.list.map((item: any) => ({ ...item, data: [] }))
-      }
-    }, () => {
-      this.$refs.loadMore.refresh(true)
-    })
-  }
-  /**
-   * @Author: Tainan
    * @Description: 搜索
    * @Date: 2019-06-06 13:22:44
    */
   handleSearch() {
-    console.log('sousuo')
+    this.setState({
+      datas: []
+    }, () => {
+      this.$refs.loadMore.refresh(true)
+    })
   }
   /**
    * @Author: Tainan
@@ -90,12 +64,18 @@ class Order extends Component {
   handleSearchBarChange(value) {
     this.setState((prev: any) => {
       return {
-        form: {
-          ...prev.form,
-          value
-        }
+        params: Object.assign({}, ...Object.keys(prev.params).map(key => ({ [key]: value })))
       }
     })
+  }
+  /**
+   * @Author: Tainan
+   * @Description: 清空搜索内容重新搜索
+   * @Date: 2019-06-06 13:22:52
+   */
+  handleSearchBarClear() {
+    this.handleSearchBarChange('')
+    this.handleSearch()
   }
   /**
    * @Author: Tainan
@@ -147,7 +127,7 @@ class Order extends Component {
    * @Description: 请求卡片数据
    * @Date: 2019-06-06 17:09:45
    */
-  handleFetchData(active: number, params: any) {
+  handleFetchData(params: any) {
     const { type } = this.$router.params
     return ({
       // 今日
@@ -158,25 +138,29 @@ class Order extends Component {
       3: () => $order.wait(params),
       // 提醒取货
       4: () => $order.wait(params)
-    })[type]()
+    })[type]().then((resp: any) => {
+      const { data, code } = resp
+      return code == ERR_OK 
+        ? { total: data.length, rows: data }
+        : { total: 0, rows: [] }
+    })
   }
   /**
    * @Author: Tainan
    * @Description: 处理上拉加载
    * @Date: 2019-06-06 17:11:01
    */
-  handlePullUp(active: number, resp: any) {
-    if (active != this.state.active) return
+  handlePullUp(resp: any) {
     this.setState(function (prev: any) {
-      // const { rows } = resp
-      // return {
-      //   data: [...prev.data, ...rows]
-      // }
+      const { rows } = resp
+      return {
+        datas: [...prev.datas, ...rows]
+      }
     })
   }
   /**
    * @Author: Tainan
-   * @Description: Card 点击
+   * @Description: Card 点击进入详情页
    * @Date: 2019-06-06 18:27:49
    */
   handleCardClick(item: any) {
@@ -186,30 +170,15 @@ class Order extends Component {
   }
   /**
    * @Author: Tainan
-   * @Description: 渲染提示或者是Tabs
-   * @Date: 2019-06-06 17:29:38
-   */
-  renderTabsOrRemarks() {
-    const { type } = this.$router.params
-    const { active, tabs } = this.state
-    // 收货提醒 || Tabs
-    return (
-      type == 4
-        ? <View className="remarks font-sm color-error border-bottom-1px">注：通过H5链接下的订单，不支持收获提醒。</View>
-        : <AtTabs current={active} tabList={tabs} onClick={this.handleTabsClick.bind(this)} />
-    )
-  }
-  /**
-   * @Author: Tainan
    * @Description: 底部操作按钮
    * @Date: 2019-06-06 17:28:38
    */
   renderFooterAction() {
-    const { data, check } = this.state
+    const { datas, check } = this.state
     return (
       <View className={classNames('flex', 'flex-v-center', 'flex-h-between', 'bg-white','border-top-1px', 'footer-action', {'is-apple-x': isAppleX()})}>
         <View onClick={this.checkBoxAll.bind(this)} className="color-info">
-          <Text className={classNames('iconfont', 'check-box', 'font-xl',[data.length && data.length === check.length ? 'icon-check-box-on' : 'icon-check-box-off'])}/>
+          <Text className={classNames('iconfont', 'check-box', 'font-xl',[datas.length && datas.length === check.length ? 'icon-check-box-on' : 'icon-check-box-off'])}/>
           <Text>提醒今日取货订单</Text>
         </View>
         <AtButton className="font-sm" type="primary" size="small" onClick={this.handleRemind.bind(this)}>提醒取货</AtButton>
@@ -218,28 +187,31 @@ class Order extends Component {
   }
   render() {
     const { type } = this.$router.params
-    const { form, list, check, active } = this.state
+    const { datas, check, params } = this.state
     return (
       <View className="wrapper">
         <AtMessage />
         {/* 顶部搜索 */}
         <AtSearchBar
-          value={form.value}
           actionName="搜一下"
-          placeholder="提货单号、手机号、收货人、微信昵称查询"
+          value={params.picker}
           onActionClick={this.handleSearch.bind(this)}
+          onClear={this.handleSearchBarClear.bind(this)}
+          placeholder="提货单号、手机号、收货人、微信昵称查询"
           onChange={this.handleSearchBarChange.bind(this)} />
-        {/* Tab 或者 提示区域 */}
-        {this.renderTabsOrRemarks()}
+        {type == 4 &&
+          <View className="remarks font-sm color-error border-bottom-1px">注：通过H5链接下的订单，不支持收获提醒。</View>
+        }
         {/* 卡片区域 */}
         <View className={classNames('scroll-view', { 'no-action': type != 4, 'is-apple-x': isAppleX() })}>
           <LoadMore
+            params={params}
             ref={(node: any) => this.$refs.loadMore = node}
-            onPullUp={this.handlePullUp.bind(this, active)}
-            fetch={this.handleFetchData.bind(this, active)}>
+            onPullUp={this.handlePullUp.bind(this)}
+            fetch={this.handleFetchData.bind(this)}>
             <Cards
+              data={datas}
               isCheckBox={type == 4}
-              data={list[active]['data']}
               onClick={this.handleCardClick}
               onCheck={this.handleCardCheck.bind(this)} check={check}/>
           </LoadMore>

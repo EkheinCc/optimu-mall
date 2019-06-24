@@ -6,7 +6,7 @@
     width: 100%;
     bottom: 100px;
     position: absolute;
-    top: calc(35PX + 105px);
+    top: calc(24px + 30PX);
     &.is-apple-x {
       padding-bottom: 34PX;  
     }
@@ -15,7 +15,7 @@
     }
   }
   .remarks + .scroll-view {
-    top: calc(35PX + 85px);
+    top: calc(24px + 30PX + 70px);
   }
   .footer-action {
     left: 0;

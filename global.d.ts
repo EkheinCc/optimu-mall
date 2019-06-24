@@ -23,3 +23,4 @@ declare namespace JSX {
     'ec-canvas': any
   }
 }
+

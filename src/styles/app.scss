@@ -19,10 +19,17 @@ page {
     padding-top: 0;
     padding-bottom: 0;
   }
+  .at-search-bar__placeholder {
+    flex: 1;
+  }
 }
 // 重写弹出层宽度
 .at-curtain__container {
   width: 90%;
+}
+// modal 内容区域高度自动撑开
+.at-modal__content {
+  min-height: auto;
 }
 
 .clear-lh {
@@ -65,6 +72,9 @@ page {
   }
   &-h-center {
     justify-content: center;
+  }
+  &-h-end {
+    justify-content: flex-end;
   }
   &-h-between {
     justify-content: space-between;
