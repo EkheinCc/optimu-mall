@@ -58,7 +58,9 @@ class Index extends Component {
       const { data } = resp
       this.setState(function (prev:any) {
         return {
-          index: Object.assign({}, prev.index, data),
+          index: Object.assign({}, prev.index, data, {
+            avatar: BASE_URL + data.avatar
+          }),
           form: Object.assign({}, prev.form, { bio: data.bio })
         }
       })
@@ -210,17 +212,6 @@ class Index extends Component {
   }
   /**
    * @Author: Tainan
-   * @Description: 处理地址点击
-   * @Date: 2019-06-03 15:20:41
-   */
-  handleLocationClick() {
-    Taro.chooseLocation().then((resp: any) => {
-      const { name } = resp
-      // this.setState({ address: name })
-    })
-  }
-  /**
-   * @Author: Tainan
    * @Description: 订单管理Click
    * @Date: 2019-06-06 17:34:40
    */
@@ -234,9 +225,11 @@ class Index extends Component {
    * @Date: 2019-06-03 16:24:07
    */
   handleAvatarChange() {
+    let avatar = null
     Taro.chooseImage({ count: 1 })
       .then((resp: any) => {
-        const [filePath] = resp.tempFilePaths
+        const [ filePath ] = resp.tempFilePaths
+        avatar = filePath
         Taro.showLoading({ title: '头像上传中...', mask: true })
         return $upload({
           filePath,
@@ -249,7 +242,15 @@ class Index extends Component {
         Taro.hideLoading()
         const { code } = JSON.parse(resp.data)
         if (code === ERR_OK) {
-          Taro.atMessage({ type: 'info', message: '头像修改成功~' })
+          this.setState(function(prev: any) {
+            return { 
+              index: {
+                ...prev.index, avatar 
+              }
+            }
+          }, () => {
+            Taro.atMessage({ type: 'info', message: '头像修改成功~' })
+          })
         }
       })
   }
@@ -271,10 +272,10 @@ class Index extends Component {
   renderUserLocation() {
     const { index } = this.state
     return (
-      <View className="font-sm user-location" onClick={this.handleLocationClick.bind(this)}>
+      <View className="font-sm user-location">
         <Text className="iconfont icon-location"/>
         <Text className="color-grey-1">门店位置：</Text>
-        <Text className="color-info">{index.pick}</Text>
+        <Text className="color-info">{index.pick || '您暂未设置门店位置哦~'}</Text>
       </View>
     )
   }
@@ -288,7 +289,7 @@ class Index extends Component {
     return (
       <View className="bg-white flex flex-v-center user-info border-bottom-1px">
         <View className="text-center avatar" onClick={this.handleAvatarChange.bind(this)}>
-          <Image src={BASE_URL + index.avatar} />
+          <Image src={index.avatar} />
           <View className="font-xs color-placeholder">点击修改头像</View>
         </View>
         <View className="flex-fill">
@@ -301,7 +302,7 @@ class Index extends Component {
             placeholder="快来设置属于你自己的个性签名吧~"
             onBlur={this.handleBioBlur.bind(this)}
             onChange={this.handleBioChange.bind(this)}>
-            <Text className="iconfont icon-sign color-black-0"/>
+            <Text className="iconfont font-sm icon-sign color-grey-2"/>
           </AtInput>
         </View>
       </View>

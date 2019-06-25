@@ -1,5 +1,6 @@
 import './index.scss'
 import { isAppleX } from '@/utils'
+import dayjs from 'dayjs'
 import classNames from 'classnames'
 import Tabs from '@/components/Tabs'
 import $commission from '@/api/commission'
@@ -60,12 +61,14 @@ class Commission extends Component {
       list: [],
       active: index
     }, () => {
-      const { loadMore } = this.$refs
-      loadMore
-        ? loadMore.refresh(true)   // 刷新其他tab数据
-        : this.getTotalData() // 获取累计数据
+      index === 3 && this.getTotalData()
     })
   }
+  /**
+   * @Author: Tainan
+   * @Description: 加载数据
+   * @Date: 2019-06-25 19:52:56
+   */
   handleFetchData(active: any, params: any) {
     const fetch = ({
       0: () => $commission.today(params), // 当天
@@ -93,9 +96,9 @@ class Commission extends Component {
       <Block>
         {list.map((item: any) =>
           <View key={item.id} className="flex flex-v-center border-top-1px list-item">
-            <View className="column">比速腾 蜗牛计划资源宝石面膜 250g/片</View>
-            <View className="column">5.70</View>
-            <View className="column">2019-06-07</View>
+            <View className="column">{item.order_no}</View>
+            <View className="column">{item.change_money}</View>
+            <View className="column">{dayjs(item.change_time).format('YYYY-MM-DD')}</View>
           </View>
         )}
       </Block>
@@ -150,9 +153,10 @@ class Commission extends Component {
           <Text>&yen;</Text>
           <Text className="price-number">{total}</Text>
         </View>
-        {active === 3 
-          ? this.renderCumulativeList()
-          : this.renderLoadMore()}
+        {active === 0 && this.renderLoadMore()}
+        {active === 1 && this.renderLoadMore()}
+        {active === 2 && this.renderLoadMore()}
+        {active === 3 && this.renderCumulativeList()}
       </View>
     )
   }

@@ -1,6 +1,7 @@
 import './index.scss'
 import $user from '@/api/user'
 import $login from '@/api/login'
+import logo from '@/assets/logo.jpg'
 import { ERR_OK } from '@/config/http'
 import { validate, formatUrl } from '@/utils'
 import Taro, { Component, Config } from '@tarojs/taro'
@@ -83,7 +84,7 @@ class Login extends Component {
     return (
       <View className="wrapper">
         <AtMessage/>
-        <Image className="logo" src="https://img2.woyaogexing.com/2019/05/26/65f91c15ea654b359dd9642c7efbc7d2!400x400.jpeg"/>
+        <Image className="logo" src={logo}/>
         {this.renderLoginForm()}
         <AtModal
           title="提示"

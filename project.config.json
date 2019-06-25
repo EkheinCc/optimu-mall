@@ -2,14 +2,15 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "weapp",
 	"description": "",
-	"appid": "wxc3ccdbf40c16c2fd",
+	"appid": "wx2b2c90cd030b3574",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
 		"newFeature": true,
-		"autoAudits": false
+		"autoAudits": false,
+		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",

@@ -16,17 +16,20 @@ http.interceptors.request.use(request => {
   request.headers['token']        = userInfo.token
   request.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   return request
+}, error => {
+  Taro.showToast({ title: '请求失败啦~', duration: 2000, icon: 'none' })
 })
 
 http.interceptors.response.use(response => {
   Taro.hideLoading()
   const { data } = response
   if (data.code !== ERR_OK) {
-    Taro.showToast({ title: data.msg, duration: 2000, icon: 'none' })
+    Taro.showToast({ title: data.msg || `返回错误码：${data.code}`, duration: 2000, icon: 'none' })
   }
   return data
 }, error => {
   Taro.hideLoading()
+  Taro.showToast({ title: '服务器跑丢啦~', duration: 2000, icon: 'none' })
   return Promise.reject(error)
 })
 

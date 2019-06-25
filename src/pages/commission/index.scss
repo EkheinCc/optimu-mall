@@ -10,7 +10,7 @@
   }
   .scroll-view {
     bottom: 0;
-    top: 450px;
+    top: 430px;
     width: 100%;
     position: absolute;
     &.is-apple-x {
@@ -38,6 +38,7 @@
     padding: $spacing-v-lg 0;
   }
   .list-item {
+    min-height: 3em;
     padding: $spacing-v-sm 0;
     .column:nth-child(1) {
       text-align: left;
